@@ -135,7 +135,7 @@ async function f2(){
             //alert(`OJO con ${symb_eth}`);
         }
         
-        if(futter_eth < 4000 && enviado.length == 0){
+        if(futter_eth < spotter_eth && enviado.length == 0){
             //['jhoulin.chakana@gmail.com', "ignacio@chakana.com.ar", "elliot@chakana.com.ar ", "arigoli@chakana.com.ar", "tbazzani.chakana@gmail.com"]
 
             //jmtp mail
