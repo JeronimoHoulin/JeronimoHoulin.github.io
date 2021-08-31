@@ -135,13 +135,13 @@ async function f2(){
             //alert(`OJO con ${symb_eth}`);
         }
         
-        if(futter_eth < spotter_eth && enviado.length == 0){
+        if(futter_eth < 4000 && enviado.length == 0){
             //['jhoulin.chakana@gmail.com', "ignacio@chakana.com.ar", "elliot@chakana.com.ar ", "arigoli@chakana.com.ar", "tbazzani.chakana@gmail.com"]
 
             //jmtp mail
             Email.send({
                 SecureToken : "8c63b637-7fb4-4890-a902-d46695ed167a",
-                To : ['jhoulin.chakana@gmail.com', "ignacio@chakana.com.ar", "elliot@chakana.com.ar ", "arigoli@chakana.com.ar", "tbazzani.chakana@gmail.com"],
+                To : 'jhoulin.chakana@gmail.com',
                 From : "jeronimoaisuru@gmail.com",
                 Subject : "Avisoo ! ",
                 Body : "El Futuro de ETH está debajo del SPOT, avisar a Jero / Nacho / el que esté disponible que salga de todas las posiciones de ETH !",
