@@ -1,0 +1,107 @@
+
+img.logo{
+    width: 25%;  
+    height: 25%; 
+}
+
+h1.title{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 35px;
+    color: rgb(4, 4, 116);
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+p.vencimiento{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    margin-top: 0%;
+    margin-bottom: 3%;
+}
+p.diasx{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h1.subtitle{
+    font-size: 30px;
+    margin : 5% 0% 5% 0%;
+}
+
+p.data{
+    font-size: 25px;
+    margin : 5% 0% 5% 0%;
+}
+
+p.tasas{
+    font-size: 25px;
+    color: rgb(0, 255, 34);
+    margin : 5% 0% 5% 0%;
+}
+div.contenedor1{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+div.contenedor2{
+    display: flex;
+    flex-direction: column;
+}
+div.contenedor3{
+    display: flex;
+    flex-direction: row;
+
+    height: fit-content;
+}
+div.BTC{
+    padding: 1%;
+    border-style: solid;
+    border-color: blue;
+    border-width: 1px;
+
+    width: fit-content;
+}
+
+div.ETH{
+    padding: 1%;
+    border-style: solid;
+    border-color: blue;
+    border-width: 1px;
+
+    width: fit-content;
+}
+
+div.BNB{
+    padding: 1%;
+    border-style: solid;
+    border-color: blue;
+    border-width: 1px;
+
+    width: fit-content;
+}
+
+div.DOT{
+    padding: 1%;
+    border-style: solid;
+    border-color: blue;
+    border-width: 1px;
+
+    width: fit-content;
+}
+
+div.BCH{
+    padding: 1%;
+    border-style: solid;
+    border-color: blue;
+    border-width: 1px;
+
+    width: fit-content;
+}
+
+div.ADA{
+    padding: 1%;
+    border-style: solid;
+    border-color: blue;
+    border-width: 1px;
+
+    width: fit-content;
+}
