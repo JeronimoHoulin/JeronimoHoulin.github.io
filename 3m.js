@@ -1,3 +1,4 @@
+console.log("Hello Chakana Investment !")
 //Dates for anualized ret
 var maturity = new Date("09/24/2021");
 
@@ -405,7 +406,7 @@ async function f6(){
         fut_ada.innerText = parseFloat(fut_p).toFixed(2);
 
         futter_ada = futy_ada[futy_ada.length-1];
-        console.log(fut_p);
+        //console.log(fut_p);
         
         let tasa = futter_ada / spotter_ada -1;
 
