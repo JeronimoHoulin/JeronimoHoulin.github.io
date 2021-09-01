@@ -1,4 +1,4 @@
-console.log("Hello Chakana Investment !!")
+console.log("Hello Chakana !!");
 //Dates for anualized ret
 var maturity = new Date("09/24/2021");
 
@@ -44,7 +44,6 @@ async function f1(){
         //console.log(event.data);
         let spot_p = JSON.parse(event.data).p;
         spoty_btc.push(JSON.parse(spot_p));
-        spot_btc.innerText = parseFloat(spot_p).toFixed(2);
 
         spotter_btc = spoty_btc[spoty_btc.length-1];
     }
@@ -55,7 +54,6 @@ async function f1(){
         //console.log(event.data);
         let fut_p = JSON.parse(event.data).p;
         futy_btc.push(JSON.parse(fut_p));
-        fut_btc.innerText = parseFloat(fut_p).toFixed(2);
 
         futter_btc = futy_btc[futy_btc.length-1];
 
@@ -65,11 +63,19 @@ async function f1(){
         tasa_d_btc.innerText = `${(tasa*100).toFixed(3)}%`;
 
         let anual = ((((tasa/diff)+1)**365)-1)*100;
-        tasa_a_btc.innerHTML = `${anual.toFixed(3)}%`;
 
         if(anual > 15){
-            //alert(`OJO con ${symb_btc}`);
+            spot_btc.style.color = "rgb(197, 197, 197)";
+            fut_btc.style.color = "rgb(197, 197, 197)";
+            tasa_a_btc.style.color = "rgb(0, 255, 34)";
+        }else if(anual < 10){
+            tasa_a_btc.style.color = "rgb(255, 0, 34)";
         }
+
+        spot_btc.innerText = parseFloat(spotter_btc).toFixed(2);
+        fut_btc.innerText = parseFloat(futter_btc).toFixed(2);
+
+        tasa_a_btc.innerHTML = `${anual.toFixed(3)}%`;
     }
 
 
@@ -108,7 +114,6 @@ async function f2(){
         //console.log(event.data);
         let spot_p = JSON.parse(event.data).p;
         spoty_eth.push(JSON.parse(spot_p));
-        spot_eth.innerText = parseFloat(spot_p).toFixed(2);
 
         spotter_eth = spoty_eth[spoty_eth.length-1];
     }
@@ -119,7 +124,6 @@ async function f2(){
         //console.log(event.data);
         let fut_p = JSON.parse(event.data).p;
         futy_eth.push(JSON.parse(fut_p));
-        fut_eth.innerText = parseFloat(fut_p).toFixed(2);
 
         futter_eth = futy_eth[futy_eth.length-1];
 
@@ -132,16 +136,27 @@ async function f2(){
         tasa_a_eth.innerHTML = `${anual.toFixed(3)}%`;
 
         if(anual > 15){
-            //alert(`OJO con ${symb_eth}`);
+            fut_eth.style.color = "rgb(197, 197, 197)";
+            spot_eth.style.color = "rgb(197, 197, 197)";
+            tasa_a_eth.style.color = "rgb(0, 255, 34)";
+        }else if(anual < 10){
+            tasa_a_eth.style.color = "rgb(255, 0, 34)";
         }
+
+        fut_eth.innerText = parseFloat(futter_eth).toFixed(2);
+        spot_eth.innerText = parseFloat(spotter_eth).toFixed(2);
+
+        tasa_a_eth.innerHTML = `${anual.toFixed(3)}%`;
         
+
+        //E-MAIL NOTIFICATION
         if(futter_eth < spotter_eth && enviado.length == 0){
             //['jhoulin.chakana@gmail.com', "ignacio@chakana.com.ar", "elliot@chakana.com.ar ", "arigoli@chakana.com.ar", "tbazzani.chakana@gmail.com"]
 
             //jmtp mail
             Email.send({
                 SecureToken : "8c63b637-7fb4-4890-a902-d46695ed167a",
-                To : 'jhoulin.chakana@gmail.com',
+                To : ['jhoulin.chakana@gmail.com', "ignacio@chakana.com.ar", "elliot@chakana.com.ar ", "arigoli@chakana.com.ar", "tbazzani.chakana@gmail.com"],
                 From : "jeronimoaisuru@gmail.com",
                 Subject : "Avisoo ! ",
                 Body : "El Futuro de ETH está debajo del SPOT, avisar a Jero / Nacho / el que esté disponible que salga de todas las posiciones de ETH !",
@@ -197,7 +212,6 @@ async function f3(){
         //console.log(event.data);
         let spot_p = JSON.parse(event.data).p;
         spoty_bnb.push(JSON.parse(spot_p));
-        spot_bnb.innerText = parseFloat(spot_p).toFixed(2);
 
         spotter_bnb = spoty_bnb[spoty_bnb.length-1];
     }
@@ -208,7 +222,6 @@ async function f3(){
         //console.log(event.data);
         let fut_p = JSON.parse(event.data).p;
         futy_bnb.push(JSON.parse(fut_p));
-        fut_bnb.innerText = parseFloat(fut_p).toFixed(2);
 
         futter_bnb = futy_bnb[futy_bnb.length-1];
 
@@ -218,11 +231,19 @@ async function f3(){
         tasa_d_bnb.innerText = `${(tasa*100).toFixed(3)}%`;
 
         let anual = ((((tasa/diff)+1)**365)-1)*100;
-        tasa_a_bnb.innerHTML = `${anual.toFixed(3)}%`;
 
         if(anual > 15){
-            //alert(`OJO con ${symb_bnb}`);
+            fut_bnb.style.color = "rgb(197, 197, 197)";
+            spot_bnb.style.color = "rgb(197, 197, 197)";
+            tasa_a_bnb.style.color = "rgb(0, 255, 34)";
+        }else if(anual < 10){
+            tasa_a_bnb.style.color = "rgb(255, 0, 34)";
         }
+
+        fut_bnb.innerText = parseFloat(futter_bnb).toFixed(2);
+        spot_bnb.innerText = parseFloat(spotter_bnb).toFixed(2);
+
+        tasa_a_bnb.innerHTML = `${anual.toFixed(3)}%`;
     }
 
 
@@ -262,7 +283,6 @@ async function f4(){
         //console.log(event.data);
         let spot_p = JSON.parse(event.data).p;
         spoty_dot.push(JSON.parse(spot_p));
-        spot_dot.innerText = parseFloat(spot_p).toFixed(2);
 
         spotter_dot = spoty_dot[spoty_dot.length-1];
     }
@@ -273,7 +293,6 @@ async function f4(){
         //console.log(event.data);
         let fut_p = JSON.parse(event.data).p;
         futy_dot.push(JSON.parse(fut_p));
-        fut_dot.innerText = parseFloat(fut_p).toFixed(2);
 
         futter_dot = futy_dot[futy_dot.length-1];
 
@@ -283,11 +302,18 @@ async function f4(){
         tasa_d_dot.innerText = `${(tasa*100).toFixed(3)}%`;
 
         let anual = ((((tasa/diff)+1)**365)-1)*100;
-        tasa_a_dot.innerHTML = `${anual.toFixed(3)}%`;
 
         if(anual > 15){
-           // alert(`OJO con ${symb_dot}`);
-        }
+            fut_dot.style.color = "rgb(197, 197, 197)";
+            spot_dot.style.color = "rgb(197, 197, 197)";
+            tasa_a_dot.style.color = "rgb(0, 255, 34)";
+        }else if(anual < 10){tasa_a_dot.style.color = "rgb(255, 0, 34)";}
+
+        spot_dot.innerText = parseFloat(spotter_dot).toFixed(2);
+        fut_dot.innerText = parseFloat(futter_dot).toFixed(2);
+
+        tasa_a_dot.innerHTML = `${anual.toFixed(3)}%`;
+
     }
 
 
@@ -329,7 +355,6 @@ async function f5(){
         //console.log(event.data);
         let spot_p = JSON.parse(event.data).p;
         spoty_bch.push(JSON.parse(spot_p));
-        spot_bch.innerText = parseFloat(spot_p).toFixed(2);
 
         spotter_bch = spoty_bch[spoty_bch.length-1];
     }
@@ -340,7 +365,6 @@ async function f5(){
         //console.log(event.data);
         let fut_p = JSON.parse(event.data).p;
         futy_bch.push(JSON.parse(fut_p));
-        fut_bch.innerText = parseFloat(fut_p).toFixed(2);
 
         futter_bch = futy_bch[futy_bch.length-1];
 
@@ -350,11 +374,19 @@ async function f5(){
         tasa_d_bch.innerText = `${(tasa*100).toFixed(3)}%`;
 
         let anual = ((((tasa/diff)+1)**365)-1)*100;
-        tasa_a_bch.innerHTML = `${anual.toFixed(3)}%`;
 
         if(anual > 15){
-            //alert(`OJO con ${symb_bch}`);
+            fut_bch.style.color = "rgb(197, 197, 197)";
+            spot_bch.style.color = "rgb(197, 197, 197)";
+            tasa_a_bch.style.color = "rgb(0, 255, 34)";
+        }else if(anual < 10){
+            tasa_a_bch.style.color = "rgb(255, 0, 34)";
         }
+        spot_bch.innerText = parseFloat(spotter_bch).toFixed(2);
+        fut_bch.innerText = parseFloat(futter_bch).toFixed(2);
+
+        tasa_a_bch.innerHTML = `${anual.toFixed(3)}%`;
+
     }
 
 
@@ -392,7 +424,6 @@ async function f6(){
         //console.log(event.data);
         let spot_p = JSON.parse(event.data).p;
         spoty_ada.push(JSON.parse(spot_p));
-        spot_ada.innerText = parseFloat(spot_p).toFixed(2);
 
         spotter_ada = spoty_ada[spoty_ada.length-1];
     }
@@ -403,7 +434,6 @@ async function f6(){
         //console.log(event.data);
         let fut_p = JSON.parse(event.data).p;
         futy_ada.push(JSON.parse(fut_p));
-        fut_ada.innerText = parseFloat(fut_p).toFixed(2);
 
         futter_ada = futy_ada[futy_ada.length-1];
         //console.log(fut_p);
@@ -413,14 +443,144 @@ async function f6(){
         tasa_d_ada.innerText = `${(tasa*100).toFixed(3)}%`;
 
         let anual = ((((tasa/diff)+1)**365)-1)*100;
-        tasa_a_ada.innerHTML = `${anual.toFixed(3)}%`;
 
         if(anual > 15){
-            //alert(`OJO con ${symb_ada}`);
-        }
+            fut_ada.style.color = "rgb(197, 197, 197)";
+            spot_ada.style.color = "rgb(197, 197, 197)";
+            tasa_a_ada.style.color = "rgb(0, 255, 34)";
+        }else if(anual < 10){
+            tasa_a_ada.style.color = "rgb(255, 0, 34)";
+    }
+        spot_ada.innerText = parseFloat(spotter_ada).toFixed(2);
+        fut_ada.innerText = parseFloat(futter_ada).toFixed(2);
+
+        tasa_a_ada.innerHTML = `${anual.toFixed(3)}%`;
+
     }
 
 
 }
 
 f6();
+
+
+
+/*
+//ALERT & ALARMA
+
+//alarm already preloaded in the html
+
+var audio = new Audio("style/notif1.mp3");
+console.log(spoty_btc[spoty_btc.length-1]);
+
+setTimeout(function(){
+    document.getElementById('audioxx').play();
+    alert("Thank you!");
+  }, 3000);
+
+
+if((futter_btc/spotter_btc-1) > 0.001){
+    audio.play();
+    console.log("heyyyyy");
+}
+*/
+
+
+
+
+
+
+// ALERT NOTIFICATIONS
+
+
+//Cheking if the system supports notifications
+/*
+if (!("Notification" in window)) {
+    console.log("Notifications are NOT allowed in this system !")
+} else { console.log("Notifications are allowed in this system !")};
+
+
+
+//Creating a desktop notification
+
+function showNotification(){
+    let notification = new Notification("Alerta de tasa!", {
+        body: `${"crypto"} SUPERÓ EL 15%.`
+    });
+    console.log(notification);
+}
+
+
+
+// Allowing notifications
+console.log(Notification.permission);
+//Default = User not yet said yes / no.
+
+if (Notification.permission ==="granted"){
+    console.log("Permission to notify granted!");
+
+    //SHOW MY NOTIFICATION
+    showNotification();
+
+} else if (Notification.permission !== "denied"){
+    //if they are in default, we ask to allow notifications.
+    Notification.requestPermission().then(permission =>{
+        console.log(permission);
+
+        if (permission ==="granted"){
+            console.log("tuvieja");
+
+            //SHOW MY NOTIFICATION
+            showNotification();
+        
+        }
+
+    });
+
+}
+
+//https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification
+
+
+
+
+
+function notifyMe() {
+
+    function notify() {
+        var notification = new Notification('TITLE OF NOTIFICATION', {
+          icon: 'http://carnes.cc/jsnuggets_avatar.jpg',
+          body: "Hey! You are on notice!",
+        });
+    
+        notification.onclick = function () {
+          window.open("http://carnes.cc");      
+        };
+        setTimeout(notification.close.bind(notification), 0); 
+      }
+
+      
+    if (!("Notification" in window)) {
+      alert("This browser does not support system notifications");
+    }
+    else if (Notification.permission === "granted") {
+      notify();
+    }
+    else if (Notification.permission !== 'denied') {
+      Notification.requestPermission(function (permission) {
+        if (permission === "granted") {
+            console.log("jerogay")
+            notify();
+        }
+      });
+    }
+  
+  }
+  notifyMe();
+
+  
+
+
+
+*/
+
