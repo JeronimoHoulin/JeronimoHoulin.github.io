@@ -1,51 +1,49 @@
-
 body{
-    background-color: rgba(60, 63, 66, 0.945);
+    background-color: rgba(30, 31, 32, 0.945);
     
 }
 
-
 img.logo{
     width: auto;  
-    height: 115%; 
+    height: 100px; 
 }
 
 h1.title{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 35px;
+    font-size: 38px;
     color: rgb(129, 1, 189);
-    margin-top: 3%;
-    margin-bottom: 3%;
+    margin-top: 0%;
+    margin-bottom: 0%;
 }
 
 p.vencimiento{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 20px;
     margin-top: 0%;
-    margin-bottom: 3%;
+    margin-bottom: 0%;
 }
 p.diasx{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin: 0px;
 }
 p.ojox{
-    margin-top: 5px;
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
 
 h1.subtitle{
-    font-size: 30px;
+    font-size: 20px;
     margin : 5% 0% 5% 0%;
 }
 
 p.data{
     font-size: 25px;
-    margin : 5% 0% 5% 0%;
+    margin : 5% 0% 0% 0%;
 }
 
 p.tasas{
     font-size: 25px;
-    /*color: rgb(0, 255, 34);*/
-    margin : 5% 0% 5% 0%;
+    margin : 0% 0% 0% 0%;
 }
 div.contenedor1{
     display: flex;
@@ -56,8 +54,31 @@ div.contenedor1{
 div.contenedor2{
     display: flex;
     flex-direction: column;
+    align-items: center;
+
+    height: 150px;
+    margin-bottom: 1px;
 }
 div.contenedor3{
+    display: flex;
+    flex-direction: column;
+
+    margin-left: 80%;
+}
+div.contenedor4{
+    display: flex;
+    flex-direction: row;
+
+    height: fit-content;
+}
+
+div.contenedor5{
+    display: flex;
+    flex-direction: column;
+
+    margin-left: 80%;
+}
+div.contenedor6{
     display: flex;
     flex-direction: row;
 
