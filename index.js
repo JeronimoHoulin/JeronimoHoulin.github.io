@@ -21,7 +21,7 @@ days3m.textContent += `${diff3m}`;
 let days6m = document.querySelector(".days6m");
 days6m.textContent += `${diff6m}`;
 
-
+//
 async function f1(){
 
     //First Crypto
@@ -31,7 +31,7 @@ async function f1(){
 
 
     let ws_btc = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_btc}@trade`);
-    let wsf_btc = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_btc}@markPrice`);
+    let wsf_btc = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_btc}@trade`);//@markPrice
     let wsff_btc = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_btc}@markPrice`);
 
 
@@ -90,8 +90,15 @@ async function f1(){
             fut_btc.style.color = "rgb(197, 197, 197)";
             tasa_a_btc.style.color = "rgb(0, 255, 34)";
         }else if(anual < 10){
+            spot_btc.style.color = "black";
+            fut_btc.style.color = "black";
+            spot_btc.style.color = "black";
+            fut_btc.style.color = "black";
             tasa_a_btc.style.color = "rgb(255, 0, 34)";
-        }else{tasa_a_btc.style.color = "black";}
+        }else{
+            spot_btc.style.color = "black";
+            fut_btc.style.color = "black";
+            tasa_a_btc.style.color = "yellow";}
 
         spot_btc.innerText = parseFloat(spotter_btc).toFixed(2);
         fut_btc.innerText = parseFloat(futter_btc).toFixed(2);
@@ -120,8 +127,13 @@ async function f1(){
             futf_btc.style.color = "rgb(197, 197, 197)";
             tasaf_a_btc.style.color = "rgb(0, 255, 34)";
         }else if(anual < 10){
+            spots_btc.style.color = "black";
+            futf_btc.style.color = "black";
             tasaf_a_btc.style.color = "rgb(255, 0, 34)";
-        }else{tasa_a_btc.style.color = "black";}
+        }else{
+            spots_btc.style.color = "black";
+            futf_btc.style.color = "black";
+            tasa_a_btc.style.color = "yellow";}
 
         spots_btc.innerText = parseFloat(spotter_btc).toFixed(2);
         futf_btc.innerText = parseFloat(futterf_btc).toFixed(2);
@@ -139,7 +151,7 @@ async function f1(){
 
 
     let ws_eth = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_eth}@trade`);
-    let wsf_eth = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_eth}@markPrice`);
+    let wsf_eth = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_eth}@trade`);
     let wsff_eth = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_eth}@markPrice`);
 
 
@@ -198,13 +210,19 @@ async function f1(){
         let anual = ((((tasa/diff3m)+1)**365)-1)*100;
         tasa_a_eth.innerHTML = `${anual.toFixed(3)}%`;
 
+
         if(anual > 15){
             fut_eth.style.color = "rgb(197, 197, 197)";
             spot_eth.style.color = "rgb(197, 197, 197)";
             tasa_a_eth.style.color = "rgb(0, 255, 34)";
         }else if(anual < 10){
+            spot_eth.style.color = "black";
+            fut_eth.style.color = "black";
             tasa_a_eth.style.color = "rgb(255, 0, 34)";
-        }else{tasa_a_eth.style.color = "black";}
+        }else{
+            spot_eth.style.color = "black";
+            fut_eth.style.color = "black";
+            tasa_a_eth.style.color = "yellow";}
 
         fut_eth.innerText = parseFloat(futter_eth).toFixed(2);
         spot_eth.innerText = parseFloat(spotter_eth).toFixed(2);
@@ -236,8 +254,13 @@ async function f1(){
             futf_eth.style.color = "rgb(197, 197, 197)";
             tasaf_a_eth.style.color = "rgb(0, 255, 34)";
         }else if(anual < 10){
+            spots_eth.style.color = "black";
+            futf_eth.style.color = "black";
             tasaf_a_eth.style.color = "rgb(255, 0, 34)";
-        }else{tasa_a_eth.style.color = "black";}
+        }else{
+            spots_eth.style.color = "black";
+            futf_eth.style.color = "black";
+            tasa_a_eth.style.color = "yellow";}
 
         spots_eth.innerText = parseFloat(spotter_eth).toFixed(2);
         futf_eth.innerText = parseFloat(futterf_eth).toFixed(2);
@@ -257,7 +280,7 @@ async function f1(){
 
 
     let ws_bnb = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_bnb}@trade`);
-    let wsf_bnb = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_bnb}@markPrice`);
+    let wsf_bnb = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_bnb}@trade`);
     let wsff_bnb = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_bnb}@markPrice`);
 
 
@@ -321,8 +344,13 @@ async function f1(){
             spot_bnb.style.color = "rgb(197, 197, 197)";
             tasa_a_bnb.style.color = "rgb(0, 255, 34)";
         }else if(anual < 10){
+            spot_bnb.style.color = "black";
+            fut_bnb.style.color = "black";
             tasa_a_bnb.style.color = "rgb(255, 0, 34)";
-        }else{tasa_a_bnb.style.color = "black";}
+        }else{
+            spot_bnb.style.color = "black";
+            fut_bnb.style.color = "black";
+            tasa_a_bnb.style.color = "yellow";}
 
         fut_bnb.innerText = parseFloat(futter_bnb).toFixed(2);
         spot_bnb.innerText = parseFloat(spotter_bnb).toFixed(2);
@@ -352,8 +380,13 @@ async function f1(){
             futf_bnb.style.color = "rgb(197, 197, 197)";
             tasaf_a_bnb.style.color = "rgb(0, 255, 34)";
         }else if(anual < 10){
+            spots_bnb.style.color = "black";
+            futf_bnb.style.color = "black";
             tasaf_a_bnb.style.color = "rgb(255, 0, 34)";
-        }else{tasaf_a_bnb.style.color = "black";}
+        }else{
+            spots_bnb.style.color = "black";
+            futf_bnb.style.color = "black";
+            tasaf_a_bnb.style.color = "yellow";}
 
         spots_bnb.innerText = parseFloat(spotter_bnb).toFixed(2);
         futf_bnb.innerText = parseFloat(futterf_bnb).toFixed(2);
@@ -372,7 +405,7 @@ async function f1(){
     let symb_ff_dot = `dotusd_211231`;
 
     let ws_dot = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_dot}@trade`);
-    let wsf_dot = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_dot}@markPrice`);
+    let wsf_dot = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_dot}@trade`);
     let wsff_dot = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_dot}@markPrice`);
 
 
@@ -435,8 +468,14 @@ async function f1(){
             fut_dot.style.color = "rgb(197, 197, 197)";
             spot_dot.style.color = "rgb(197, 197, 197)";
             tasa_a_dot.style.color = "rgb(0, 255, 34)";
-        }else if(anual < 10){tasa_a_dot.style.color = "rgb(255, 0, 34)";
-        }else{tasa_a_dot.style.color = "black";}
+        }else if(anual < 10){
+            spot_dot.style.color = "black";
+            fut_dot.style.color = "black";
+            tasa_a_dot.style.color = "rgb(255, 0, 34)";
+        }else{
+            spot_dot.style.color = "black";
+            fut_dot.style.color = "black";
+            tasa_a_dot.style.color = "yellow";}
 
         spot_dot.innerText = parseFloat(spotter_dot).toFixed(2);
         fut_dot.innerText = parseFloat(futter_dot).toFixed(2);
@@ -466,8 +505,13 @@ async function f1(){
             futf_dot.style.color = "rgb(197, 197, 197)";
             tasaf_a_dot.style.color = "rgb(0, 255, 34)";
         }else if(anual < 10){
+            spots_dot.style.color = "black";
+            futf_dot.style.color = "black";
             tasaf_a_dot.style.color = "rgb(255, 0, 34)";
-        }else{tasaf_a_dot.style.color = "black";}
+        }else{
+            spots_dot.style.color = "black";
+            futf_dot.style.color = "black";
+            tasaf_a_dot.style.color = "yellow";}
 
         spots_dot.innerText = parseFloat(spotter_dot).toFixed(2);
         futf_dot.innerText = parseFloat(futterf_dot).toFixed(2);
@@ -487,7 +531,7 @@ async function f1(){
     let symb_ff_bch = `bchusd_211231`;
 
     let ws_bch = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_bch}@trade`);
-    let wsf_bch = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_bch}@markPrice`); //@markPrice
+    let wsf_bch = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_bch}@trade`); //@markPrice
     let wsff_bch = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_bch}@markPrice`);
 
 
@@ -550,8 +594,13 @@ async function f1(){
             spot_bch.style.color = "rgb(197, 197, 197)";
             tasa_a_bch.style.color = "rgb(0, 255, 34)";
         }else if(anual < 10){
+            spot_bch.style.color = "black";
+            fut_bch.style.color = "black";
             tasa_a_bch.style.color = "rgb(255, 0, 34)";
-        }else{tasa_a_bch.style.color = "black";}
+        }else{
+            spot_bch.style.color = "black";
+            fut_bch.style.color = "black";
+            tasa_a_bch.style.color = "yellow";}
 
         spot_bch.innerText = parseFloat(spotter_bch).toFixed(2);
         fut_bch.innerText = parseFloat(futter_bch).toFixed(2);
@@ -580,8 +629,13 @@ async function f1(){
             futf_bch.style.color = "rgb(197, 197, 197)";
             tasaf_a_bch.style.color = "rgb(0, 255, 34)";
         }else if(anual < 10){
+            spots_bch.style.color = "black";
+            futf_bch.style.color = "black";
             tasaf_a_bch.style.color = "rgb(255, 0, 34)";
-        }else{tasaf_a_bch.style.color = "black";}
+        }else{
+            spots_bch.style.color = "black";
+            futf_bch.style.color = "black";
+            tasaf_a_bch.style.color = "yellow";}
 
         spots_bch.innerText = parseFloat(spotter_bch).toFixed(2);
         futf_bch.innerText = parseFloat(futterf_bch).toFixed(2);
@@ -662,8 +716,13 @@ async function f1(){
             spot_ada.style.color = "rgb(197, 197, 197)";
             tasa_a_ada.style.color = "rgb(0, 255, 34)";
         }else if(anual < 10){
+            spot_ada.style.color = "black";
+            fut_ada.style.color = "black";
             tasa_a_ada.style.color = "rgb(255, 0, 34)";
-        }else{tasa_a_ada.style.color = "black";}
+        }else{
+            spot_ada.style.color = "black";
+            fut_ada.style.color = "black";
+            tasa_a_ada.style.color = "yellow";}
 
         spot_ada.innerText = parseFloat(spotter_ada).toFixed(4);
         fut_ada.innerText = parseFloat(futter_ada).toFixed(4);
@@ -693,8 +752,13 @@ async function f1(){
                 futf_ada.style.color = "rgb(197, 197, 197)";
                 tasaf_a_ada.style.color = "rgb(0, 255, 34)";
             }else if(anual < 10){
+                spots_ada.style.color = "black";
+                futf_ada.style.color = "black";
                 tasaf_a_ada.style.color = "rgb(255, 0, 34)";
-            }else{tasaf_a_ada.style.color = "black";}
+            }else{
+                spots_ada.style.color = "black";
+                futf_ada.style.color = "black";
+                tasaf_a_ada.style.color = "yellow";}
     
             spots_ada.innerText = parseFloat(spotter_ada).toFixed(2);
             futf_ada.innerText = parseFloat(futterf_ada).toFixed(2);
