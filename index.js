@@ -1,6 +1,11 @@
 //Dates for anualized ret
-var maturity3m = new Date("09/24/2021");
+var maturity3m = new Date("03/25/2022");
 var maturity6m = new Date("12/31/2021");
+
+//Notify me when direct rate is larger than: 
+let notify1 = 18;//NOF
+//when to re send (%)
+let resend = 0.7;
 
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
@@ -16,9 +21,9 @@ var diff6m = (maturity6m.getTime() - today.getTime())/(24*3600*1000);
 console.log(diff3m);
 console.log(diff6m);
 
-let days3m = document.querySelector(".days3m");
+let days3m = document.querySelector(".days3m");  // los de marxo 2022
 days3m.textContent += `${diff3m}`;
-let days6m = document.querySelector(".days6m");
+let days6m = document.querySelector(".days6m"); //los de dic 2021
 days6m.textContent += `${diff6m}`;
 
 //
@@ -26,7 +31,7 @@ async function f1(){
 
     //First Crypto
     let symb_btc = "btcusdt";
-    let symb_f_btc = "btcusd_210924";
+    let symb_f_btc = "btcusd_220325";
     let symb_ff_btc = "btcusd_211231";
 
 
@@ -37,20 +42,20 @@ async function f1(){
 
 
     //spot 3m
-    let spot_btc = document.querySelector(".BTC .spot");
+    let spot_btc = document.querySelector(".contenedor6 .BTC .spot");
     //future 3m
-    let fut_btc = document.querySelector(".BTC .future");
+    let fut_btc = document.querySelector(".contenedor6 .BTC .future");
     //Tasa 3m 
-    let tasa_d_btc = document.querySelector(".BTC .tasa");
-    let tasa_a_btc= document.querySelector(".BTC .tasa1");
+    let tasa_d_btc = document.querySelector(".contenedor6 .BTC .tasa");
+    let tasa_a_btc= document.querySelector(".contenedor6 .BTC .tasa1");
 
     //spot 6m 
-    let spots_btc = document.querySelector(".contenedor6 .BTC .spot");
+    let spots_btc = document.querySelector(".contenedor4 .BTC .spot");
     //future 6m 
-    let futf_btc = document.querySelector(".contenedor6 .BTC .future");
+    let futf_btc = document.querySelector(".contenedor4 .BTC .future");
     //Tasa 6m 
-    let tasaf_d_btc = document.querySelector(".contenedor6 .BTC .tasa");
-    let tasaf_a_btc= document.querySelector(".contenedor6 .BTC .tasa1");
+    let tasaf_d_btc = document.querySelector(".contenedor4 .BTC .tasa");
+    let tasaf_a_btc= document.querySelector(".contenedor4 .BTC .tasa1");
 
     let futy_btc = [];
     let futyf_btc = [];
@@ -139,6 +144,8 @@ async function f1(){
         futf_btc.innerText = parseFloat(futterf_btc).toFixed(2);
 
         tasaf_a_btc.innerHTML = `${anual.toFixed(3)}%`;
+
+
     }
 
 
@@ -146,7 +153,7 @@ async function f1(){
 
     //NEXT CRYPTO
     let symb_eth = "ethusdt";
-    let symb_f_eth = "ethusd_210924";
+    let symb_f_eth = "ethusd_220325";
     let symb_ff_eth = "ethusd_211231";
 
 
@@ -156,20 +163,20 @@ async function f1(){
 
 
     //spot 3m
-    let spot_eth = document.querySelector(".ETH .spot");
+    let spot_eth = document.querySelector(".contenedor6 .ETH .spot");
     //future 3m
-    let fut_eth = document.querySelector(".ETH .future");
+    let fut_eth = document.querySelector(".contenedor6 .ETH .future");
     //Tasa 3m
-    let tasa_d_eth = document.querySelector(".ETH .tasa");
-    let tasa_a_eth = document.querySelector(".ETH .tasa1");
+    let tasa_d_eth = document.querySelector(".contenedor6 .ETH .tasa");
+    let tasa_a_eth = document.querySelector(".contenedor6 .ETH .tasa1");
 
     //spot 6m 
-    let spots_eth = document.querySelector(".contenedor6 .ETH .spot");
+    let spots_eth = document.querySelector(".contenedor4 .ETH .spot");
     //future 6m 
-    let futf_eth = document.querySelector(".contenedor6 .ETH .future");
+    let futf_eth = document.querySelector(".contenedor4 .ETH .future");
     //Tasa 6m 
-    let tasaf_d_eth = document.querySelector(".contenedor6 .ETH .tasa");
-    let tasaf_a_eth= document.querySelector(".contenedor6 .ETH .tasa1");
+    let tasaf_d_eth = document.querySelector(".contenedor4 .ETH .tasa");
+    let tasaf_a_eth= document.querySelector(".contenedor4 .ETH .tasa1");
 
     let futy_eth = [];
     let futyf_eth = [];
@@ -180,7 +187,8 @@ async function f1(){
     let futterf_eth = null;
 
 
-    let enviado = [];
+    let enviado = 0;
+    window.localStorage.setItem("Enviado", enviado);
 
 
 
@@ -228,6 +236,10 @@ async function f1(){
         spot_eth.innerText = parseFloat(spotter_eth).toFixed(2);
 
         tasa_a_eth.innerHTML = `${anual.toFixed(3)}%`;
+        
+
+        
+
 
 
     }
@@ -275,7 +287,7 @@ async function f1(){
 
     //NEXT CRYPTO
     let symb_bnb = "bnbusdt";
-    let symb_f_bnb = "bnbusd_210924";
+    let symb_f_bnb = "bnbusd_220325";
     let symb_ff_bnb = "bnbusd_211231";
 
 
@@ -286,20 +298,20 @@ async function f1(){
 
 
     //spot 3m
-    let spot_bnb = document.querySelector(".BNB .spot");
+    let spot_bnb = document.querySelector(".contenedor6 .BNB .spot");
     //future 3m
-    let fut_bnb = document.querySelector(".BNB .future");
+    let fut_bnb = document.querySelector(".contenedor6 .BNB .future");
     //Tasa 3m
-    let tasa_d_bnb = document.querySelector(".BNB .tasa");
-    let tasa_a_bnb = document.querySelector(".BNB .tasa1");
+    let tasa_d_bnb = document.querySelector(".contenedor6 .BNB .tasa");
+    let tasa_a_bnb = document.querySelector(".contenedor6 .BNB .tasa1");
 
     //spot 6m 
-    let spots_bnb = document.querySelector(".contenedor6 .BNB .spot");
+    let spots_bnb = document.querySelector(".contenedor4 .BNB .spot");
     //future 6m 
-    let futf_bnb = document.querySelector(".contenedor6 .BNB .future");
+    let futf_bnb = document.querySelector(".contenedor4 .BNB .future");
     //Tasa 6m 
-    let tasaf_d_bnb = document.querySelector(".contenedor6 .BNB .tasa");
-    let tasaf_a_bnb= document.querySelector(".contenedor6 .BNB .tasa1");
+    let tasaf_d_bnb = document.querySelector(".contenedor4 .BNB .tasa");
+    let tasaf_a_bnb= document.querySelector(".contenedor4 .BNB .tasa1");
 
     let futy_bnb = [];
     let futyf_bnb = [];
@@ -392,6 +404,10 @@ async function f1(){
         futf_bnb.innerText = parseFloat(futterf_bnb).toFixed(2);
 
         tasaf_a_bnb.innerHTML = `${anual.toFixed(3)}%`;
+
+
+
+        
     }
 
 
@@ -401,7 +417,7 @@ async function f1(){
 
     //NEXT CRYPTO
     let symb_dot = "dotusdt";
-    let symb_f_dot = "dotusd_210924";
+    let symb_f_dot = "dotusd_220325";
     let symb_ff_dot = `dotusd_211231`;
 
     let ws_dot = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_dot}@trade`);
@@ -411,20 +427,20 @@ async function f1(){
 
 
     //spot 3m
-    let spot_dot = document.querySelector(".DOT .spot");
+    let spot_dot = document.querySelector(".contenedor6 .DOT .spot");
     //future 3m
-    let fut_dot = document.querySelector(".DOT .future");
+    let fut_dot = document.querySelector(".contenedor6 .DOT .future");
     //Tasa 3m
-    let tasa_d_dot = document.querySelector(".DOT .tasa");
-    let tasa_a_dot = document.querySelector(".DOT .tasa1");
+    let tasa_d_dot = document.querySelector(".contenedor6 .DOT .tasa");
+    let tasa_a_dot = document.querySelector(".contenedor6 .DOT .tasa1");
 
     //spot 6m 
-    let spots_dot = document.querySelector(".contenedor6 .DOT .spot");
+    let spots_dot = document.querySelector(".contenedor4 .DOT .spot");
     //future 6m 
-    let futf_dot = document.querySelector(".contenedor6 .DOT .future");
+    let futf_dot = document.querySelector(".contenedor4 .DOT .future");
     //Tasa 6m 
-    let tasaf_d_dot = document.querySelector(".contenedor6 .DOT .tasa");
-    let tasaf_a_dot= document.querySelector(".contenedor6 .DOT .tasa1");
+    let tasaf_d_dot = document.querySelector(".contenedor4 .DOT .tasa");
+    let tasaf_a_dot= document.querySelector(".contenedor4 .DOT .tasa1");
 
     let futy_dot = [];
     let futyf_dot = [];
@@ -517,6 +533,9 @@ async function f1(){
         futf_dot.innerText = parseFloat(futterf_dot).toFixed(2);
 
         tasaf_a_dot.innerHTML = `${anual.toFixed(3)}%`;
+
+
+        
     }
 
 
@@ -527,7 +546,7 @@ async function f1(){
 
     //NEXT CRYPTO
     let symb_bch = "bchusdt";
-    let symb_f_bch = "bchusd_210924";
+    let symb_f_bch = "bchusd_220325";
     let symb_ff_bch = `bchusd_211231`;
 
     let ws_bch = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_bch}@trade`);
@@ -538,20 +557,20 @@ async function f1(){
 
 
     //spot 3m
-    let spot_bch = document.querySelector(".BCH .spot");
+    let spot_bch = document.querySelector(".contenedor6 .BCH .spot");
     //future 3m
-    let fut_bch = document.querySelector(".BCH .future");
+    let fut_bch = document.querySelector(".contenedor6 .BCH .future");
     //Tasa 3m
-    let tasa_d_bch = document.querySelector(".BCH .tasa");
-    let tasa_a_bch = document.querySelector(".BCH .tasa1");
+    let tasa_d_bch = document.querySelector(".contenedor6 .BCH .tasa");
+    let tasa_a_bch = document.querySelector(".contenedor6 .BCH .tasa1");
 
     //spot 6m 
-    let spots_bch = document.querySelector(".contenedor6 .BCH .spot");
+    let spots_bch = document.querySelector(".contenedor4 .BCH .spot");
     //future 6m 
-    let futf_bch = document.querySelector(".contenedor6 .BCH .future");
+    let futf_bch = document.querySelector(".contenedor4 .BCH .future");
     //Tasa 6m 
-    let tasaf_d_bch = document.querySelector(".contenedor6 .BCH .tasa");
-    let tasaf_a_bch= document.querySelector(".contenedor6 .BCH .tasa1");
+    let tasaf_d_bch = document.querySelector(".contenedor4 .BCH .tasa");
+    let tasaf_a_bch= document.querySelector(".contenedor4 .BCH .tasa1");
 
     let futy_bch = [];
     let futyf_bch = [];
@@ -641,6 +660,9 @@ async function f1(){
         futf_bch.innerText = parseFloat(futterf_bch).toFixed(2);
 
         tasaf_a_bch.innerHTML = `${anual.toFixed(3)}%`;
+
+       
+
     }
 
 
@@ -649,7 +671,7 @@ async function f1(){
 
     //NEXT CRYPTO
     let symb_ada = "adausdt";
-    let symb_f_ada = "adausd_210924";
+    let symb_f_ada = "adausd_220325";
     let symb_ff_ada = "adausd_211231";
 
     let ws_ada = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_ada}@trade`);
@@ -659,20 +681,20 @@ async function f1(){
 
 
     //spot 3m
-    let spot_ada = document.querySelector(".ADA .spot");
+    let spot_ada = document.querySelector(".contenedor6 .ADA .spot");
     //future 3m
-    let fut_ada = document.querySelector(".ADA .future");
+    let fut_ada = document.querySelector(".contenedor6 .ADA .future");
     //Tasa 3m
-    let tasa_d_ada = document.querySelector(".ADA .tasa");
-    let tasa_a_ada = document.querySelector(".ADA .tasa1");
+    let tasa_d_ada = document.querySelector(".contenedor6 .ADA .tasa");
+    let tasa_a_ada = document.querySelector(".contenedor6 .ADA .tasa1");
 
     //spot 6m 
-    let spots_ada = document.querySelector(".contenedor6 .ADA .spot");
+    let spots_ada = document.querySelector(".contenedor4 .ADA .spot");
     //future 6m 
-    let futf_ada = document.querySelector(".contenedor6 .ADA .future");
+    let futf_ada = document.querySelector(".contenedor4 .ADA .future");
     //Tasa 6m 
-    let tasaf_d_ada = document.querySelector(".contenedor6 .ADA .tasa");
-    let tasaf_a_ada= document.querySelector(".contenedor6 .ADA .tasa1");
+    let tasaf_d_ada = document.querySelector(".contenedor4 .ADA .tasa");
+    let tasaf_a_ada= document.querySelector(".contenedor4 .ADA .tasa1");
 
     let futy_ada = [];
     let futyf_ada = [];
@@ -764,6 +786,11 @@ async function f1(){
             futf_ada.innerText = parseFloat(futterf_ada).toFixed(2);
     
             tasaf_a_ada.innerHTML = `${anual.toFixed(3)}%`;
+
+
+         
+
+
         }
 
 

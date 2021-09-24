@@ -3,17 +3,23 @@ body{
     
 }
 
-img.logo{
-    width: auto;  
-    height: 100px; 
-}
-
 h1.title{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 38px;
     color: rgb(129, 1, 189);
-    margin-top: 0%;
+    margin-top: 40px;
     margin-bottom: 0%;
+  	margin-left:0%;
+}
+p.aclaraciones{
+    width: 315px;
+    font-family:sans-serif;
+}
+p.linky{
+    text-decoration: none;
+    color: blueviolet;
+    margin-top: 2%;
+    margin-left: 10%;
 }
 
 p.vencimiento{
@@ -25,10 +31,13 @@ p.vencimiento{
 p.diasx{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin: 0px;
+    width: 200px; 
+    margin-left: 10%;
 }
-p.ojox{
-    margin-top: 1px;
-    margin-bottom: 1px;
+
+div.contenetuti{
+    display: flex;
+    flex-direction: column;
 }
 
 h1.subtitle{
@@ -49,23 +58,23 @@ div.contenedor1{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 150px;
+    height: 90px;
 
     margin-bottom: 5px;
 }
 div.contenedor2{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items:flex-start;
 
-    height: 150px;
+    height: 100px;
     margin-bottom: 1px;
 }
 div.contenedor3{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
-    margin-left: 80%;
+    margin-left: 0%;
 }
 div.contenedor4{
     display: flex;
@@ -76,9 +85,10 @@ div.contenedor4{
 
 div.contenedor5{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
-    margin-left: 80%;
+    margin-left: 0%;
+    margin-top: 1%;
 }
 div.contenedor6{
     display: flex;
