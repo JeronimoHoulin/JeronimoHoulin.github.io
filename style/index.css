@@ -3,6 +3,11 @@ body{
     
 }
 
+img.imgchakana{
+    height: 10%;
+    width:auto;
+}
+
 h1.title{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 38px;
