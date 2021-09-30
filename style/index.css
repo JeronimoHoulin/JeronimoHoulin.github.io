@@ -1,30 +1,35 @@
 body{
     background-color: rgba(30, 31, 32, 0.945);
-    
-}
 
-img.imgchakana{
-    height: 10%;
-    width:auto;
+}
+::-webkit-scrollbar {
+    display: none;
 }
 
 h1.title{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 38px;
     color: rgb(129, 1, 189);
-    margin-top: 40px;
+    margin-top: 1%;
     margin-bottom: 0%;
   	margin-left:0%;
 }
-p.aclaraciones{
-    width: 315px;
-    font-family:sans-serif;
+
+img.chakn{
+    width:30%;
 }
-p.linky{
-    text-decoration: none;
+p.aclaraciones{
+    width: 60%;
+    font-family:sans-serif;
+    margin-top: 3%;
+}
+
+
+a.linky{
     color: blueviolet;
-    margin-top: 2%;
-    margin-left: 10%;
+    text-decoration: none;
+    margin-top: 5%;
+    margin-left: 1%
 }
 
 p.vencimiento{
@@ -37,12 +42,12 @@ p.diasx{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin: 0px;
     width: 200px; 
-    margin-left: 10%;
 }
 
 div.contenetuti{
     display: flex;
     flex-direction: column;
+
 }
 
 h1.subtitle{
@@ -61,36 +66,33 @@ p.tasas{
 }
 div.contenedor1{
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 90px;
-
-    margin-bottom: 5px;
-}
-div.contenedor2{
-    display: flex;
     flex-direction: column;
-    align-items:flex-start;
+    justify-content:space-between;
+    height: 150px;
 
-    height: 100px;
-    margin-bottom: 1px;
+    margin-bottom: 7%;
 }
+
 div.contenedor3{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
     margin-left: 0%;
+    margin-top:1%;
 }
 div.contenedor4{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 
     height: fit-content;
+    margin-top:1%;
+
 }
 
 div.contenedor5{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
     margin-left: 0%;
     margin-top: 1%;
@@ -98,8 +100,11 @@ div.contenedor5{
 div.contenedor6{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 
     height: fit-content;
+    margin-top:1%;
+
 }
 div.BTC{
     padding: 1%;

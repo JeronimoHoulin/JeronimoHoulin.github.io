@@ -2,10 +2,13 @@
 var maturity3m = new Date("03/25/2022");
 var maturity6m = new Date("12/31/2021");
 
+let date1 = "220325";
+let date2 = "211231"
+
 //Notify me when direct rate is larger than: 
 let notify1 = 18;//NOF
-//when to re send (%)
-let resend = 0.7;
+//when to re send (%) Si cayó 70% la tasa, volver a habilitar el envío.
+let resend = 0.5;
 
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
@@ -31,13 +34,13 @@ async function f1(){
 
     //First Crypto
     let symb_btc = "btcusdt";
-    let symb_f_btc = "btcusd_220325";
-    let symb_ff_btc = "btcusd_211231";
+    let symb_f_btc = `btcusd_${date1}`;
+    let symb_ff_btc = `btcusd_${date2}`;
 
 
     let ws_btc = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_btc}@trade`);
     let wsf_btc = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_btc}@trade`);//@markPrice
-    let wsff_btc = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_btc}@markPrice`);
+    let wsff_btc = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_btc}@trade`);
 
 
 
@@ -65,6 +68,12 @@ async function f1(){
     let futter_btc = null;
     let futterf_btc = null;
 
+
+    let enviado = 0;
+    window.localStorage.setItem("Enviado", enviado);
+
+
+
     ////////////////SPOT call////////////////////////
     ws_btc.onmessage = (event) => {
         //console.log(event.data);
@@ -72,6 +81,9 @@ async function f1(){
         spoty_btc.push(JSON.parse(spot_p));
 
         spotter_btc = spoty_btc[spoty_btc.length-1];
+
+        spot_btc.innerText = parseFloat(spotter_btc).toFixed(2);
+        spots_btc.innerText = parseFloat(spotter_btc).toFixed(2);
     }
 
 
@@ -83,7 +95,6 @@ async function f1(){
 
         futter_btc = futy_btc[futy_btc.length-1];
 
-        
         let tasa = futter_btc / spotter_btc -1;
 
         tasa_d_btc.innerText = `${(tasa*100).toFixed(3)}%`;
@@ -105,10 +116,14 @@ async function f1(){
             fut_btc.style.color = "black";
             tasa_a_btc.style.color = "yellow";}
 
-        spot_btc.innerText = parseFloat(spotter_btc).toFixed(2);
         fut_btc.innerText = parseFloat(futter_btc).toFixed(2);
-
         tasa_a_btc.innerHTML = `${anual.toFixed(3)}%`;
+
+
+
+
+
+
     }
 
 
@@ -120,7 +135,6 @@ async function f1(){
 
         futterf_btc = futyf_btc[futyf_btc.length-1];
 
-        
         let tasa = futterf_btc / spotter_btc -1;
 
         tasaf_d_btc.innerText = `${(tasa*100).toFixed(3)}%`;
@@ -140,12 +154,11 @@ async function f1(){
             futf_btc.style.color = "black";
             tasa_a_btc.style.color = "yellow";}
 
-        spots_btc.innerText = parseFloat(spotter_btc).toFixed(2);
         futf_btc.innerText = parseFloat(futterf_btc).toFixed(2);
-
         tasaf_a_btc.innerHTML = `${anual.toFixed(3)}%`;
 
 
+   
     }
 
 
@@ -153,8 +166,8 @@ async function f1(){
 
     //NEXT CRYPTO
     let symb_eth = "ethusdt";
-    let symb_f_eth = "ethusd_220325";
-    let symb_ff_eth = "ethusd_211231";
+    let symb_f_eth = `ethusd_${date1}`;
+    let symb_ff_eth = `ethusd_${date2}`;
 
 
     let ws_eth = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_eth}@trade`);
@@ -187,10 +200,6 @@ async function f1(){
     let futterf_eth = null;
 
 
-    let enviado = 0;
-    window.localStorage.setItem("Enviado", enviado);
-
-
 
     ////////////////SPOT call////////////////////////
     ws_eth.onmessage = (event) => {
@@ -199,6 +208,9 @@ async function f1(){
         spoty_eth.push(JSON.parse(spot_p));
 
         spotter_eth = spoty_eth[spoty_eth.length-1];
+
+        spot_eth.innerText = parseFloat(spotter_eth).toFixed(2);
+        spots_eth.innerText = parseFloat(spotter_eth).toFixed(2);
     }
 
 
@@ -209,7 +221,6 @@ async function f1(){
         futy_eth.push(JSON.parse(fut_p));
 
         futter_eth = futy_eth[futy_eth.length-1];
-
         
         let tasa = futter_eth / spotter_eth -1;
 
@@ -233,13 +244,40 @@ async function f1(){
             tasa_a_eth.style.color = "yellow";}
 
         fut_eth.innerText = parseFloat(futter_eth).toFixed(2);
-        spot_eth.innerText = parseFloat(spotter_eth).toFixed(2);
-
         tasa_a_eth.innerHTML = `${anual.toFixed(3)}%`;
-        
 
-        
+        //E-MAIL NOTIFICATION   
+        // Direct rate larger than costs            Anual larger then notify1                    Message not sent      NOT NAN
+        if( tasa*100-0.3 > 0               &&          ((tasa*100-0.3)/diff3m)*365 > notify1          && enviado == 0   && isNaN(spotter_eth) != true && isNaN(futter_eth) != true){
+            //['jhoulin.chakana@gmail.com', "ignacio@chakana.com.ar", "elliot@chakana.com.ar ", "arigoli@chakana.com.ar", "tbazzani.chakana@gmail.com"]
 
+            //jmtp mail
+            Email.send({
+                SecureToken : "",
+                To : 'jeronimo.houlin@gmail.com',
+                From : "jeronimoaisuru@gmail.com",
+                Subject : "Avisoo !",
+                Body : `  ETH a ${diff3m} días está en ${notify1}% anual NOF, avisar ! Código: 2580.`,
+                Attachments : [
+                {
+                    name : "chakanaimggg.png",
+                    path : "https://media-exp1.licdn.com/dms/image/C4E0BAQHxRffplAaY-w/company-logo_200_200/0/1549408729033?e=2159024400&v=beta&t=QMk5flu1ZaH6Yhq9JzW9TMyd-kt6R3r2amTmfjqp11s"
+                }]
+            }).then(
+            message => console.log("Se ha enviado un mail.")
+            );
+
+            enviado += 1;
+            window.localStorage.setItem("Enviado", enviado);
+
+        }
+
+        //Si caeo 70% la tasa, volver a habilitar el envío.
+        if(anual < notify1*(1-resend) && enviado ==1){
+            enviado -= 1;
+            window.localStorage.setItem("Enviado", enviado);
+        }
+        
 
 
     }
@@ -274,10 +312,41 @@ async function f1(){
             futf_eth.style.color = "black";
             tasa_a_eth.style.color = "yellow";}
 
-        spots_eth.innerText = parseFloat(spotter_eth).toFixed(2);
         futf_eth.innerText = parseFloat(futterf_eth).toFixed(2);
-
         tasaf_a_eth.innerHTML = `${anual.toFixed(3)}%`;
+
+
+        //E-MAIL NOTIFICATION   
+        // Direct rate larger than costs            Anual larger then notify1                    Message not sent      NOT NAN
+        if( tasa*100-0.3 > 0               &&          ((tasa*100-0.3)/diff6m)*365 > notify1          && enviado == 0   && isNaN(spotter_eth) != true && isNaN(futterf_eth) != true){
+            //['jhoulin.chakana@gmail.com', "ignacio@chakana.com.ar", "elliot@chakana.com.ar ", "arigoli@chakana.com.ar", "tbazzani.chakana@gmail.com"]
+
+            //jmtp mail
+            Email.send({
+                SecureToken : "",
+                To : 'jeronimo.houlin@gmail.com',
+                From : "jeronimoaisuru@gmail.com",
+                Subject : "Avisoo !",
+                Body : `  ETH a ${diff6m} días está en ${tasa*100-0.3}% anual NOF, avisar ! Código: 2580.`,
+                Attachments : [
+                {
+                    name : "chakanaimggg.png",
+                    path : "https://media-exp1.licdn.com/dms/image/C4E0BAQHxRffplAaY-w/company-logo_200_200/0/1549408729033?e=2159024400&v=beta&t=QMk5flu1ZaH6Yhq9JzW9TMyd-kt6R3r2amTmfjqp11s"
+                }]
+            }).then(
+            message => console.log("Se ha enviado un mail.")
+            );
+
+            enviado += 1;
+            window.localStorage.setItem("Enviado", enviado);
+
+        }
+
+        //Si caeo 70% la tasa, volver a habilitar el envío.
+        if(anual < notify1*(1-resend) && enviado ==1){
+            enviado -= 1;
+            window.localStorage.setItem("Enviado", enviado);
+        }
     }
 
 
@@ -287,8 +356,8 @@ async function f1(){
 
     //NEXT CRYPTO
     let symb_bnb = "bnbusdt";
-    let symb_f_bnb = "bnbusd_220325";
-    let symb_ff_bnb = "bnbusd_211231";
+    let symb_f_bnb = `bnbusd_${date1}`;
+    let symb_ff_bnb = `bnbusd_${date2}`;
 
 
     let ws_bnb = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_bnb}@trade`);
@@ -333,6 +402,9 @@ async function f1(){
         spoty_bnb.push(JSON.parse(spot_p));
 
         spotter_bnb = spoty_bnb[spoty_bnb.length-1];
+
+        spot_bnb.innerText = parseFloat(spotter_bnb).toFixed(2);
+        spots_bnb.innerText = parseFloat(spotter_bnb).toFixed(2);
     }
 
 
@@ -344,7 +416,6 @@ async function f1(){
 
         futter_bnb = futy_bnb[futy_bnb.length-1];
 
-        
         let tasa = futter_bnb / spotter_bnb -1;
 
         tasa_d_bnb.innerText = `${(tasa*100).toFixed(3)}%`;
@@ -364,9 +435,8 @@ async function f1(){
             fut_bnb.style.color = "black";
             tasa_a_bnb.style.color = "yellow";}
 
-        fut_bnb.innerText = parseFloat(futter_bnb).toFixed(2);
-        spot_bnb.innerText = parseFloat(spotter_bnb).toFixed(2);
 
+        fut_bnb.innerText = parseFloat(futter_bnb).toFixed(2);
         tasa_a_bnb.innerHTML = `${anual.toFixed(3)}%`;
     }
 
@@ -400,11 +470,9 @@ async function f1(){
             futf_bnb.style.color = "black";
             tasaf_a_bnb.style.color = "yellow";}
 
-        spots_bnb.innerText = parseFloat(spotter_bnb).toFixed(2);
+
         futf_bnb.innerText = parseFloat(futterf_bnb).toFixed(2);
-
         tasaf_a_bnb.innerHTML = `${anual.toFixed(3)}%`;
-
 
 
         
@@ -417,8 +485,8 @@ async function f1(){
 
     //NEXT CRYPTO
     let symb_dot = "dotusdt";
-    let symb_f_dot = "dotusd_220325";
-    let symb_ff_dot = `dotusd_211231`;
+    let symb_f_dot = `dotusd_${date1}`;
+    let symb_ff_dot = `dotusd_${date2}`;
 
     let ws_dot = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_dot}@trade`);
     let wsf_dot = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_dot}@trade`);
@@ -462,6 +530,10 @@ async function f1(){
         spoty_dot.push(JSON.parse(spot_p));
 
         spotter_dot = spoty_dot[spoty_dot.length-1];
+
+        spot_dot.innerText = parseFloat(spotter_dot).toFixed(2);
+        spots_dot.innerText = parseFloat(spotter_dot).toFixed(2);
+
     }
 
 
@@ -473,7 +545,6 @@ async function f1(){
 
         futter_dot = futy_dot[futy_dot.length-1];
 
-        
         let tasa = futter_dot / spotter_dot -1;
 
         tasa_d_dot.innerText = `${(tasa*100).toFixed(3)}%`;
@@ -493,9 +564,7 @@ async function f1(){
             fut_dot.style.color = "black";
             tasa_a_dot.style.color = "yellow";}
 
-        spot_dot.innerText = parseFloat(spotter_dot).toFixed(2);
         fut_dot.innerText = parseFloat(futter_dot).toFixed(2);
-
         tasa_a_dot.innerHTML = `${anual.toFixed(3)}%`;
 
     }
@@ -509,7 +578,6 @@ async function f1(){
 
         futterf_dot = futyf_dot[futyf_dot.length-1];
 
-        
         let tasa = futterf_dot / spotter_dot -1;
 
         tasaf_d_dot.innerText = `${(tasa*100).toFixed(3)}%`;
@@ -529,11 +597,8 @@ async function f1(){
             futf_dot.style.color = "black";
             tasaf_a_dot.style.color = "yellow";}
 
-        spots_dot.innerText = parseFloat(spotter_dot).toFixed(2);
         futf_dot.innerText = parseFloat(futterf_dot).toFixed(2);
-
         tasaf_a_dot.innerHTML = `${anual.toFixed(3)}%`;
-
 
         
     }
@@ -546,8 +611,8 @@ async function f1(){
 
     //NEXT CRYPTO
     let symb_bch = "bchusdt";
-    let symb_f_bch = "bchusd_220325";
-    let symb_ff_bch = `bchusd_211231`;
+    let symb_f_bch = `bchusd_${date1}`;
+    let symb_ff_bch = `bchusd_${date2}`;
 
     let ws_bch = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_bch}@trade`);
     let wsf_bch = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_bch}@trade`); //@markPrice
@@ -590,6 +655,8 @@ async function f1(){
         spoty_bch.push(JSON.parse(spot_p));
 
         spotter_bch = spoty_bch[spoty_bch.length-1];
+        spot_bch.innerText = parseFloat(spotter_bch).toFixed(2);
+        spots_bch.innerText = parseFloat(futter_bch).toFixed(2);
     }
 
 
@@ -621,10 +688,42 @@ async function f1(){
             fut_bch.style.color = "black";
             tasa_a_bch.style.color = "yellow";}
 
-        spot_bch.innerText = parseFloat(spotter_bch).toFixed(2);
-        fut_bch.innerText = parseFloat(futter_bch).toFixed(2);
 
+        fut_bch.innerText = parseFloat(futter_bch).toFixed(2);
         tasa_a_bch.innerHTML = `${anual.toFixed(3)}%`;
+
+        //E-MAIL NOTIFICATION   
+        // Direct rate larger than costs            Anual larger then notify1                    Message not sent      NOT NAN
+        if( tasa*100-0.3 > 0               &&          ((tasa*100-0.3)/diff3m)*365 > notify1          && enviado == 0   && isNaN(spotter_bch) != true && isNaN(futter_bch) != true){
+            //['jhoulin.chakana@gmail.com', "ignacio@chakana.com.ar", "elliot@chakana.com.ar ", "arigoli@chakana.com.ar", "tbazzani.chakana@gmail.com"]
+
+            //jmtp mail
+            Email.send({
+                SecureToken : "",
+                To : 'jeronimo.houlin@gmail.com',
+                From : "jeronimoaisuru@gmail.com",
+                Subject : "Avisoo !",
+                Body : `  ETH a ${diff3m} días está en ${notify1}% anual NOF, avisar ! Código: 2580.`,
+                Attachments : [
+                {
+                    name : "chakanaimggg.png",
+                    path : "https://media-exp1.licdn.com/dms/image/C4E0BAQHxRffplAaY-w/company-logo_200_200/0/1549408729033?e=2159024400&v=beta&t=QMk5flu1ZaH6Yhq9JzW9TMyd-kt6R3r2amTmfjqp11s"
+                }]
+            }).then(
+            message => console.log("Se ha enviado un mail.")
+            );
+
+            enviado += 1;
+            window.localStorage.setItem("Enviado", enviado);
+
+        }
+
+        //Si caeo 70% la tasa, volver a habilitar el envío.
+        if(anual < notify1*(1-resend) && enviado ==1){
+            enviado -= 1;
+            window.localStorage.setItem("Enviado", enviado);
+        }
+
 
     }
 
@@ -656,12 +755,9 @@ async function f1(){
             futf_bch.style.color = "black";
             tasaf_a_bch.style.color = "yellow";}
 
-        spots_bch.innerText = parseFloat(spotter_bch).toFixed(2);
         futf_bch.innerText = parseFloat(futterf_bch).toFixed(2);
-
         tasaf_a_bch.innerHTML = `${anual.toFixed(3)}%`;
 
-       
 
     }
 
@@ -671,8 +767,8 @@ async function f1(){
 
     //NEXT CRYPTO
     let symb_ada = "adausdt";
-    let symb_f_ada = "adausd_220325";
-    let symb_ff_ada = "adausd_211231";
+    let symb_f_ada = `adausd_${date1}`;
+    let symb_ff_ada = `adausd_${date2}`;
 
     let ws_ada = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_ada}@trade`);
     let wsf_ada = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_ada}@trade`);
@@ -715,6 +811,10 @@ async function f1(){
         spoty_ada.push(JSON.parse(spot_p));
 
         spotter_ada = spoty_ada[spoty_ada.length-1];
+
+        spot_ada.innerText = parseFloat(spotter_ada).toFixed(4);
+        spots_ada.innerText = parseFloat(spotter_ada).toFixed(4);
+
     }
 
 
@@ -746,9 +846,8 @@ async function f1(){
             fut_ada.style.color = "black";
             tasa_a_ada.style.color = "yellow";}
 
-        spot_ada.innerText = parseFloat(spotter_ada).toFixed(4);
-        fut_ada.innerText = parseFloat(futter_ada).toFixed(4);
 
+        fut_ada.innerText = parseFloat(futter_ada).toFixed(4);
         tasa_a_ada.innerHTML = `${anual.toFixed(3)}%`;
 
     }
@@ -782,13 +881,12 @@ async function f1(){
                 futf_ada.style.color = "black";
                 tasaf_a_ada.style.color = "yellow";}
     
-            spots_ada.innerText = parseFloat(spotter_ada).toFixed(2);
             futf_ada.innerText = parseFloat(futterf_ada).toFixed(2);
     
             tasaf_a_ada.innerHTML = `${anual.toFixed(3)}%`;
 
 
-         
+            
 
 
         }
