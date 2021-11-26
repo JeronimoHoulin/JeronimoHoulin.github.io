@@ -1,5 +1,5 @@
 body{
-    background-color: rgba(30, 31, 32, 0.945);
+    background-color: rgba(51, 53, 56);
 
 }
 ::-webkit-scrollbar {
@@ -158,4 +158,20 @@ div.ADA{
     border-width: 1px;
 
     width: fit-content;
+}
+
+div.XRP{
+    padding: 1%;
+    border-style: solid;
+    border-color: rgb(2, 2, 100);
+    border-width: 1px;
+
+    width: fit-content;
+}
+
+.tradingv{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

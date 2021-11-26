@@ -1,14 +1,18 @@
 //Dates for anualized ret
-var maturity3m = new Date("03/25/2022");
-var maturity6m = new Date("12/31/2021");
+var mat3m = "12/31/2021";
+var mat6m = "03/25/2022";
 
-let date1 = "220325";
-let date2 = "211231"
+let vency3m = document.querySelector(".contenedor3 .vencimiento");
+let vency6m = document.querySelector(".contenedor5 .vencimiento");
+vency3m.textContent += mat3m;
+vency6m.textContent += mat6m;
 
-//Notify me when direct rate is larger than: 
-let notify1 = 18;//NOF
-//when to re send (%) Si cayó 70% la tasa, volver a habilitar el envío.
-let resend = 0.5;
+let date1 = "211231";
+let date2 = "220325"
+
+
+var maturity3m = new Date(mat3m);
+var maturity6m = new Date(mat6m);
 
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
@@ -24,10 +28,17 @@ var diff6m = (maturity6m.getTime() - today.getTime())/(24*3600*1000);
 console.log(diff3m);
 console.log(diff6m);
 
-let days3m = document.querySelector(".days3m");  // los de marxo 2022
+let days3m = document.querySelector(".days3m");  //los de dic 2021
 days3m.textContent += `${diff3m}`;
-let days6m = document.querySelector(".days6m"); //los de dic 2021
+let days6m = document.querySelector(".days6m"); // los de marxo 2022
 days6m.textContent += `${diff6m}`;
+
+
+//Notify me when direct rate is larger than: 
+let notify1 = 18;//NOF
+//when to re send (%) Si cayó 70% la tasa, volver a habilitar el envío.
+let resend = 0.5;
+
 
 //
 async function f1(){
@@ -45,20 +56,20 @@ async function f1(){
 
 
     //spot 3m
-    let spot_btc = document.querySelector(".contenedor6 .BTC .spot");
+    let spot_btc = document.querySelector(".contenedor4 .BTC .spot");  //6meses
     //future 3m
-    let fut_btc = document.querySelector(".contenedor6 .BTC .future");
+    let fut_btc = document.querySelector(".contenedor4 .BTC .future");
     //Tasa 3m 
-    let tasa_d_btc = document.querySelector(".contenedor6 .BTC .tasa");
-    let tasa_a_btc= document.querySelector(".contenedor6 .BTC .tasa1");
+    let tasa_d_btc = document.querySelector(".contenedor4 .BTC .tasa");
+    let tasa_a_btc= document.querySelector(".contenedor4 .BTC .tasa1");
 
     //spot 6m 
-    let spots_btc = document.querySelector(".contenedor4 .BTC .spot");
+    let spots_btc = document.querySelector(".contenedor6 .BTC .spot");   //3meses
     //future 6m 
-    let futf_btc = document.querySelector(".contenedor4 .BTC .future");
+    let futf_btc = document.querySelector(".contenedor6 .BTC .future");
     //Tasa 6m 
-    let tasaf_d_btc = document.querySelector(".contenedor4 .BTC .tasa");
-    let tasaf_a_btc= document.querySelector(".contenedor4 .BTC .tasa1");
+    let tasaf_d_btc = document.querySelector(".contenedor6 .BTC .tasa");
+    let tasaf_a_btc= document.querySelector(".contenedor6 .BTC .tasa1");
 
     let futy_btc = [];
     let futyf_btc = [];
@@ -67,11 +78,6 @@ async function f1(){
     let spotter_btc = null;
     let futter_btc = null;
     let futterf_btc = null;
-
-
-    let enviado = 0;
-    window.localStorage.setItem("Enviado", enviado);
-
 
 
     ////////////////SPOT call////////////////////////
@@ -101,25 +107,26 @@ async function f1(){
 
         let anual = ((((tasa/diff3m)+1)**365)-1)*100;
 
-        if(anual > 15){
-            spot_btc.style.color = "rgb(197, 197, 197)";
-            fut_btc.style.color = "rgb(197, 197, 197)";
-            tasa_a_btc.style.color = "rgb(0, 255, 34)";
-        }else if(anual < 10){
-            spot_btc.style.color = "black";
-            fut_btc.style.color = "black";
-            spot_btc.style.color = "black";
-            fut_btc.style.color = "black";
-            tasa_a_btc.style.color = "rgb(255, 0, 34)";
-        }else{
-            spot_btc.style.color = "black";
-            fut_btc.style.color = "black";
-            tasa_a_btc.style.color = "yellow";}
-
         fut_btc.innerText = parseFloat(futter_btc).toFixed(2);
         tasa_a_btc.innerHTML = `${anual.toFixed(3)}%`;
 
+        if(anual >= 15){
+            spot_btc.style.color = "rgb(197, 197, 197)";
+            fut_btc.style.color = "rgb(197, 197, 197)";
+            tasa_a_btc.style.color = "rgb(0, 255, 34)";
+            tasa_d_btc.style.color = "rgb(0, 255, 34)";
 
+        }else if(anual < 10){
+            spot_btc.style.color = "black";
+            fut_btc.style.color = "black";
+            tasa_d_btc.style.color = "black";
+            tasa_a_btc.style.color = "rgb(255, 0, 34)";
+        }else{
+            spot_btc.style.color = "rgb(197, 197, 197)";
+            fut_btc.style.color = "rgb(197, 197, 197)";
+            tasa_a_btc.style.color = "rgb(197, 197, 197)";
+            tasa_d_btc.style.color = "yellow";
+        }
 
 
 
@@ -140,22 +147,29 @@ async function f1(){
         tasaf_d_btc.innerText = `${(tasa*100).toFixed(3)}%`;
 
         let anual = ((((tasa/diff6m)+1)**365)-1)*100;
-
-        if(anual > 15){
+        
+        futf_btc.innerText = parseFloat(futterf_btc).toFixed(2);
+        tasaf_a_btc.innerHTML = `${anual.toFixed(3)}%`;
+        
+        if(anual >= 15){
             spots_btc.style.color = "rgb(197, 197, 197)";
             futf_btc.style.color = "rgb(197, 197, 197)";
             tasaf_a_btc.style.color = "rgb(0, 255, 34)";
+            tasaf_d_btc.style.color = "rgb(0, 255, 34)";
+
         }else if(anual < 10){
             spots_btc.style.color = "black";
             futf_btc.style.color = "black";
+            tasa_d_ada.style.color= "black";
             tasaf_a_btc.style.color = "rgb(255, 0, 34)";
         }else{
-            spots_btc.style.color = "black";
-            futf_btc.style.color = "black";
-            tasa_a_btc.style.color = "yellow";}
+            spots_btc.style.color = "rgb(197, 197, 197)";
+            futf_btc.style.color  = "rgb(197, 197, 197)";
+            tasa_a_btc.style.color = "rgb(197, 197, 197)";
+            tasa_d_btc.style.color = "yellow";
+        }
 
-        futf_btc.innerText = parseFloat(futterf_btc).toFixed(2);
-        tasaf_a_btc.innerHTML = `${anual.toFixed(3)}%`;
+
 
 
    
@@ -171,25 +185,26 @@ async function f1(){
 
 
     let ws_eth = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_eth}@trade`);
-    let wsf_eth = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_eth}@trade`);
-    let wsff_eth = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_eth}@markPrice`);
+    let wsf_eth = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_eth}@trade`);//@markPrice
+    let wsff_eth = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_eth}@trade`);
+
 
 
     //spot 3m
-    let spot_eth = document.querySelector(".contenedor6 .ETH .spot");
+    let spot_eth = document.querySelector(".contenedor4 .ETH .spot");  //6meses
     //future 3m
-    let fut_eth = document.querySelector(".contenedor6 .ETH .future");
-    //Tasa 3m
-    let tasa_d_eth = document.querySelector(".contenedor6 .ETH .tasa");
-    let tasa_a_eth = document.querySelector(".contenedor6 .ETH .tasa1");
+    let fut_eth = document.querySelector(".contenedor4 .ETH .future");
+    //Tasa 3m 
+    let tasa_d_eth = document.querySelector(".contenedor4 .ETH .tasa");
+    let tasa_a_eth= document.querySelector(".contenedor4 .ETH .tasa1");
 
     //spot 6m 
-    let spots_eth = document.querySelector(".contenedor4 .ETH .spot");
+    let spots_eth = document.querySelector(".contenedor6 .ETH .spot");   //3meses
     //future 6m 
-    let futf_eth = document.querySelector(".contenedor4 .ETH .future");
+    let futf_eth = document.querySelector(".contenedor6 .ETH .future");
     //Tasa 6m 
-    let tasaf_d_eth = document.querySelector(".contenedor4 .ETH .tasa");
-    let tasaf_a_eth= document.querySelector(".contenedor4 .ETH .tasa1");
+    let tasaf_d_eth = document.querySelector(".contenedor6 .ETH .tasa");
+    let tasaf_a_eth= document.querySelector(".contenedor6 .ETH .tasa1");
 
     let futy_eth = [];
     let futyf_eth = [];
@@ -198,7 +213,6 @@ async function f1(){
     let spotter_eth = null;
     let futter_eth = null;
     let futterf_eth = null;
-
 
 
     ////////////////SPOT call////////////////////////
@@ -221,69 +235,39 @@ async function f1(){
         futy_eth.push(JSON.parse(fut_p));
 
         futter_eth = futy_eth[futy_eth.length-1];
-        
+
         let tasa = futter_eth / spotter_eth -1;
 
         tasa_d_eth.innerText = `${(tasa*100).toFixed(3)}%`;
 
         let anual = ((((tasa/diff3m)+1)**365)-1)*100;
-        tasa_a_eth.innerHTML = `${anual.toFixed(3)}%`;
-
-
-        if(anual > 15){
-            fut_eth.style.color = "rgb(197, 197, 197)";
-            spot_eth.style.color = "rgb(197, 197, 197)";
-            tasa_a_eth.style.color = "rgb(0, 255, 34)";
-        }else if(anual < 10){
-            spot_eth.style.color = "black";
-            fut_eth.style.color = "black";
-            tasa_a_eth.style.color = "rgb(255, 0, 34)";
-        }else{
-            spot_eth.style.color = "black";
-            fut_eth.style.color = "black";
-            tasa_a_eth.style.color = "yellow";}
 
         fut_eth.innerText = parseFloat(futter_eth).toFixed(2);
         tasa_a_eth.innerHTML = `${anual.toFixed(3)}%`;
 
-        //E-MAIL NOTIFICATION   
-        // Direct rate larger than costs            Anual larger then notify1                    Message not sent      NOT NAN
-        if( tasa*100-0.3 > 0               &&          ((tasa*100-0.3)/diff3m)*365 > notify1          && enviado == 0   && isNaN(spotter_eth) != true && isNaN(futter_eth) != true){
-            //['jhoulin.chakana@gmail.com', "ignacio@chakana.com.ar", "elliot@chakana.com.ar ", "arigoli@chakana.com.ar", "tbazzani.chakana@gmail.com"]
+        if(anual >= 15){
+            spot_eth.style.color = "rgb(197, 197, 197)";
+            fut_eth.style.color = "rgb(197, 197, 197)";
+            tasa_a_eth.style.color = "rgb(0, 255, 34)";
+            tasa_d_eth.style.color = "rgb(0, 255, 34)";
 
-            //jmtp mail
-            Email.send({
-                SecureToken : "",
-                To : 'jeronimo.houlin@gmail.com',
-                From : "jeronimoaisuru@gmail.com",
-                Subject : "Avisoo !",
-                Body : `  ETH a ${diff3m} días está en ${notify1}% anual NOF, avisar ! Código: 2580.`,
-                Attachments : [
-                {
-                    name : "chakanaimggg.png",
-                    path : "https://media-exp1.licdn.com/dms/image/C4E0BAQHxRffplAaY-w/company-logo_200_200/0/1549408729033?e=2159024400&v=beta&t=QMk5flu1ZaH6Yhq9JzW9TMyd-kt6R3r2amTmfjqp11s"
-                }]
-            }).then(
-            message => console.log("Se ha enviado un mail.")
-            );
-
-            enviado += 1;
-            window.localStorage.setItem("Enviado", enviado);
-
+        }else if(anual < 10){
+            spot_eth.style.color = "black";
+            fut_eth.style.color = "black";
+            tasa_d_eth.style.color = "black";
+            tasa_a_eth.style.color = "rgb(255, 0, 34)";
+        }else{
+            spot_eth.style.color = "rgb(197, 197, 197)";
+            fut_eth.style.color = "rgb(197, 197, 197)";
+            tasa_a_eth.style.color = "rgb(197, 197, 197)";
+            tasa_d_eth.style.color = "yellow";
         }
 
-        //Si caeo 70% la tasa, volver a habilitar el envío.
-        if(anual < notify1*(1-resend) && enviado ==1){
-            enviado -= 1;
-            window.localStorage.setItem("Enviado", enviado);
-        }
-        
 
 
     }
 
 
-    
     ///////////////FUTURE call////////////////////////
     wsff_eth.onmessage = (event) => {
         //console.log(event.data);
@@ -292,61 +276,36 @@ async function f1(){
 
         futterf_eth = futyf_eth[futyf_eth.length-1];
 
-        
         let tasa = futterf_eth / spotter_eth -1;
 
         tasaf_d_eth.innerText = `${(tasa*100).toFixed(3)}%`;
 
         let anual = ((((tasa/diff6m)+1)**365)-1)*100;
-
-        if(anual > 15){
-            spots_eth.style.color = "rgb(197, 197, 197)";
-            futf_eth.style.color = "rgb(197, 197, 197)";
-            tasaf_a_eth.style.color = "rgb(0, 255, 34)";
-        }else if(anual < 10){
-            spots_eth.style.color = "black";
-            futf_eth.style.color = "black";
-            tasaf_a_eth.style.color = "rgb(255, 0, 34)";
-        }else{
-            spots_eth.style.color = "black";
-            futf_eth.style.color = "black";
-            tasa_a_eth.style.color = "yellow";}
-
+        
         futf_eth.innerText = parseFloat(futterf_eth).toFixed(2);
         tasaf_a_eth.innerHTML = `${anual.toFixed(3)}%`;
 
+        if(anual >= 15){
+            spots_eth.style.color = "rgb(197, 197, 197)";
+            futf_eth.style.color = "rgb(197, 197, 197)";
+            tasaf_a_eth.style.color = "rgb(0, 255, 34)";
+            tasaf_d_eth.style.color = "rgb(0, 255, 34)";
 
-        //E-MAIL NOTIFICATION   
-        // Direct rate larger than costs            Anual larger then notify1                    Message not sent      NOT NAN
-        if( tasa*100-0.3 > 0               &&          ((tasa*100-0.3)/diff6m)*365 > notify1          && enviado == 0   && isNaN(spotter_eth) != true && isNaN(futterf_eth) != true){
-            //['jhoulin.chakana@gmail.com', "ignacio@chakana.com.ar", "elliot@chakana.com.ar ", "arigoli@chakana.com.ar", "tbazzani.chakana@gmail.com"]
-
-            //jmtp mail
-            Email.send({
-                SecureToken : "",
-                To : 'jeronimo.houlin@gmail.com',
-                From : "jeronimoaisuru@gmail.com",
-                Subject : "Avisoo !",
-                Body : `  ETH a ${diff6m} días está en ${tasa*100-0.3}% anual NOF, avisar ! Código: 2580.`,
-                Attachments : [
-                {
-                    name : "chakanaimggg.png",
-                    path : "https://media-exp1.licdn.com/dms/image/C4E0BAQHxRffplAaY-w/company-logo_200_200/0/1549408729033?e=2159024400&v=beta&t=QMk5flu1ZaH6Yhq9JzW9TMyd-kt6R3r2amTmfjqp11s"
-                }]
-            }).then(
-            message => console.log("Se ha enviado un mail.")
-            );
-
-            enviado += 1;
-            window.localStorage.setItem("Enviado", enviado);
-
+        }else if(anual < 10){
+            spots_eth.style.color = "black";
+            futf_eth.style.color = "black";
+            tasaf_d_eth.style.color = "black";
+            tasaf_a_eth.style.color = "rgb(255, 0, 34)";
+        }else{
+            spots_eth.style.color = "rgb(197, 197, 197)";
+            futf_eth.style.color = "rgb(197, 197, 197)";
+            tasaf_a_eth.style.color = "rgb(197, 197, 197)";
+            tasaf_d_eth.style.color = "yellow";
         }
 
-        //Si caeo 70% la tasa, volver a habilitar el envío.
-        if(anual < notify1*(1-resend) && enviado ==1){
-            enviado -= 1;
-            window.localStorage.setItem("Enviado", enviado);
-        }
+
+
+   
     }
 
 
@@ -367,20 +326,20 @@ async function f1(){
 
 
     //spot 3m
-    let spot_bnb = document.querySelector(".contenedor6 .BNB .spot");
+    let spot_bnb = document.querySelector(".contenedor4 .BNB .spot");
     //future 3m
-    let fut_bnb = document.querySelector(".contenedor6 .BNB .future");
+    let fut_bnb = document.querySelector(".contenedor4 .BNB .future");
     //Tasa 3m
-    let tasa_d_bnb = document.querySelector(".contenedor6 .BNB .tasa");
-    let tasa_a_bnb = document.querySelector(".contenedor6 .BNB .tasa1");
+    let tasa_d_bnb = document.querySelector(".contenedor4 .BNB .tasa");
+    let tasa_a_bnb = document.querySelector(".contenedor4 .BNB .tasa1");
 
     //spot 6m 
-    let spots_bnb = document.querySelector(".contenedor4 .BNB .spot");
+    let spots_bnb = document.querySelector(".contenedor6 .BNB .spot");
     //future 6m 
-    let futf_bnb = document.querySelector(".contenedor4 .BNB .future");
+    let futf_bnb = document.querySelector(".contenedor6 .BNB .future");
     //Tasa 6m 
-    let tasaf_d_bnb = document.querySelector(".contenedor4 .BNB .tasa");
-    let tasaf_a_bnb= document.querySelector(".contenedor4 .BNB .tasa1");
+    let tasaf_d_bnb = document.querySelector(".contenedor6 .BNB .tasa");
+    let tasaf_a_bnb= document.querySelector(".contenedor6 .BNB .tasa1");
 
     let futy_bnb = [];
     let futyf_bnb = [];
@@ -422,22 +381,26 @@ async function f1(){
 
         let anual = ((((tasa/diff3m)+1)**365)-1)*100;
 
-        if(anual > 15){
-            fut_bnb.style.color = "rgb(197, 197, 197)";
+        fut_bnb.innerText = parseFloat(futter_bnb).toFixed(2);
+        tasa_a_bnb.innerHTML = `${anual.toFixed(3)}%`;
+
+        if(anual >= 15){
             spot_bnb.style.color = "rgb(197, 197, 197)";
+            fut_bnb.style.color = "rgb(197, 197, 197)";
             tasa_a_bnb.style.color = "rgb(0, 255, 34)";
+            tasa_d_bnb.style.color = "rgb(0, 255, 34)";
+
         }else if(anual < 10){
             spot_bnb.style.color = "black";
             fut_bnb.style.color = "black";
+            tasa_d_bnb.style.color = "black";
             tasa_a_bnb.style.color = "rgb(255, 0, 34)";
         }else{
-            spot_bnb.style.color = "black";
-            fut_bnb.style.color = "black";
-            tasa_a_bnb.style.color = "yellow";}
-
-
-        fut_bnb.innerText = parseFloat(futter_bnb).toFixed(2);
-        tasa_a_bnb.innerHTML = `${anual.toFixed(3)}%`;
+            spot_bnb.style.color = "rgb(197, 197, 197)";
+            fut_bnb.style.color = "rgb(197, 197, 197)";
+            tasa_a_bnb.style.color = "rgb(197, 197, 197)";
+            tasa_d_bnb.style.color = "yellow";
+        }
     }
 
 
@@ -457,23 +420,26 @@ async function f1(){
 
         let anual = ((((tasa/diff6m)+1)**365)-1)*100;
 
-        if(anual > 15){
-            spots_bnb.style.color = "rgb(197, 197, 197)";
-            futf_bnb.style.color = "rgb(197, 197, 197)";
-            tasaf_a_bnb.style.color = "rgb(0, 255, 34)";
-        }else if(anual < 10){
-            spots_bnb.style.color = "black";
-            futf_bnb.style.color = "black";
-            tasaf_a_bnb.style.color = "rgb(255, 0, 34)";
-        }else{
-            spots_bnb.style.color = "black";
-            futf_bnb.style.color = "black";
-            tasaf_a_bnb.style.color = "yellow";}
-
-
         futf_bnb.innerText = parseFloat(futterf_bnb).toFixed(2);
         tasaf_a_bnb.innerHTML = `${anual.toFixed(3)}%`;
 
+        if(anual >= 15){
+            spots_bnb.style.color = "rgb(197, 197, 197)";
+            futf_bnb.style.color = "rgb(197, 197, 197)";
+            tasaf_a_bnb.style.color = "rgb(0, 255, 34)";
+            tasaf_d_bnb.style.color = "rgb(0, 255, 34)";
+
+        }else if(anual < 10){
+            spots_bnb.style.color = "black";
+            futf_bnb.style.color = "black";
+            tasaf_d_bnb.style.color = "black";
+            tasaf_a_bnb.style.color = "rgb(255, 0, 34)";
+        }else{
+            spots_bnb.style.color = "rgb(197, 197, 197)";
+            futf_bnb.style.color = "rgb(197, 197, 197)";
+            tasaf_a_bnb.style.color = "rgb(197, 197, 197)";
+            tasaf_d_bnb.style.color = "yellow";
+        }
 
         
     }
@@ -490,25 +456,25 @@ async function f1(){
 
     let ws_dot = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_dot}@trade`);
     let wsf_dot = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_dot}@trade`);
-    let wsff_dot = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_dot}@markPrice`);
+    let wsff_dot = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_dot}@trade`);
 
 
 
     //spot 3m
-    let spot_dot = document.querySelector(".contenedor6 .DOT .spot");
+    let spot_dot = document.querySelector(".contenedor4 .DOT .spot");
     //future 3m
-    let fut_dot = document.querySelector(".contenedor6 .DOT .future");
+    let fut_dot = document.querySelector(".contenedor4 .DOT .future");
     //Tasa 3m
-    let tasa_d_dot = document.querySelector(".contenedor6 .DOT .tasa");
-    let tasa_a_dot = document.querySelector(".contenedor6 .DOT .tasa1");
+    let tasa_d_dot = document.querySelector(".contenedor4 .DOT .tasa");
+    let tasa_a_dot = document.querySelector(".contenedor4 .DOT .tasa1");
 
     //spot 6m 
-    let spots_dot = document.querySelector(".contenedor4 .DOT .spot");
+    let spots_dot = document.querySelector(".contenedor6 .DOT .spot");
     //future 6m 
-    let futf_dot = document.querySelector(".contenedor4 .DOT .future");
+    let futf_dot = document.querySelector(".contenedor6 .DOT .future");
     //Tasa 6m 
-    let tasaf_d_dot = document.querySelector(".contenedor4 .DOT .tasa");
-    let tasaf_a_dot= document.querySelector(".contenedor4 .DOT .tasa1");
+    let tasaf_d_dot = document.querySelector(".contenedor6 .DOT .tasa");
+    let tasaf_a_dot= document.querySelector(".contenedor6 .DOT .tasa1");
 
     let futy_dot = [];
     let futyf_dot = [];
@@ -551,22 +517,28 @@ async function f1(){
 
         let anual = ((((tasa/diff3m)+1)**365)-1)*100;
 
-        if(anual > 15){
-            fut_dot.style.color = "rgb(197, 197, 197)";
+        fut_dot.innerText = parseFloat(futter_dot).toFixed(2);
+        tasa_a_dot.innerHTML = `${anual.toFixed(3)}%`;
+    
+        if(anual >= 15){
             spot_dot.style.color = "rgb(197, 197, 197)";
+            fut_dot.style.color = "rgb(197, 197, 197)";
             tasa_a_dot.style.color = "rgb(0, 255, 34)";
+            tasa_d_dot.style.color = "rgb(0, 255, 34)";
+
         }else if(anual < 10){
             spot_dot.style.color = "black";
             fut_dot.style.color = "black";
+            tasa_d_dot.style.color = "black";
             tasa_a_dot.style.color = "rgb(255, 0, 34)";
         }else{
-            spot_dot.style.color = "black";
-            fut_dot.style.color = "black";
-            tasa_a_dot.style.color = "yellow";}
+            spot_dot.style.color = "rgb(197, 197, 197)";
+            fut_dot.style.color = "rgb(197, 197, 197)";
+            tasa_a_dot.style.color = "rgb(197, 197, 197)";
+            tasa_d_dot.style.color = "yellow";
+        }
 
-        fut_dot.innerText = parseFloat(futter_dot).toFixed(2);
-        tasa_a_dot.innerHTML = `${anual.toFixed(3)}%`;
-
+        
     }
 
 
@@ -584,22 +556,27 @@ async function f1(){
 
         let anual = ((((tasa/diff6m)+1)**365)-1)*100;
 
-        if(anual > 15){
-            spots_dot.style.color = "rgb(197, 197, 197)";
-            futf_dot.style.color = "rgb(197, 197, 197)";
-            tasaf_a_dot.style.color = "rgb(0, 255, 34)";
-        }else if(anual < 10){
-            spots_dot.style.color = "black";
-            futf_dot.style.color = "black";
-            tasaf_a_dot.style.color = "rgb(255, 0, 34)";
-        }else{
-            spots_dot.style.color = "black";
-            futf_dot.style.color = "black";
-            tasaf_a_dot.style.color = "yellow";}
-
         futf_dot.innerText = parseFloat(futterf_dot).toFixed(2);
         tasaf_a_dot.innerHTML = `${anual.toFixed(3)}%`;
 
+        
+        if(anual >= 15){
+            spots_dot.style.color = "rgb(197, 197, 197)";
+            futf_dot.style.color = "rgb(197, 197, 197)";
+            tasaf_a_dot.style.color = "rgb(0, 255, 34)";
+            tasaf_d_dot.style.color = "rgb(0, 255, 34)";
+
+        }else if(anual < 10){
+            spots_dot.style.color = "black";
+            futf_dot.style.color = "black";
+            tasaf_d_dot.style.color = "black";
+            tasaf_a_dot.style.color = "rgb(255, 0, 34)";
+        }else{
+            spots_dot.style.color = "rgb(197, 197, 197)";
+            futf_dot.style.color = "rgb(197, 197, 197)";
+            tasaf_a_dot.style.color = "rgb(197, 197, 197)";
+            tasaf_d_dot.style.color = "yellow";
+        }
         
     }
 
@@ -622,20 +599,20 @@ async function f1(){
 
 
     //spot 3m
-    let spot_bch = document.querySelector(".contenedor6 .BCH .spot");
+    let spot_bch = document.querySelector(".contenedor4 .BCH .spot");
     //future 3m
-    let fut_bch = document.querySelector(".contenedor6 .BCH .future");
+    let fut_bch = document.querySelector(".contenedor4 .BCH .future");
     //Tasa 3m
-    let tasa_d_bch = document.querySelector(".contenedor6 .BCH .tasa");
-    let tasa_a_bch = document.querySelector(".contenedor6 .BCH .tasa1");
+    let tasa_d_bch = document.querySelector(".contenedor4 .BCH .tasa");
+    let tasa_a_bch = document.querySelector(".contenedor4 .BCH .tasa1");
 
     //spot 6m 
-    let spots_bch = document.querySelector(".contenedor4 .BCH .spot");
+    let spots_bch = document.querySelector(".contenedor6 .BCH .spot");
     //future 6m 
-    let futf_bch = document.querySelector(".contenedor4 .BCH .future");
+    let futf_bch = document.querySelector(".contenedor6 .BCH .future");
     //Tasa 6m 
-    let tasaf_d_bch = document.querySelector(".contenedor4 .BCH .tasa");
-    let tasaf_a_bch= document.querySelector(".contenedor4 .BCH .tasa1");
+    let tasaf_d_bch = document.querySelector(".contenedor6 .BCH .tasa");
+    let tasaf_a_bch= document.querySelector(".contenedor6 .BCH .tasa1");
 
     let futy_bch = [];
     let futyf_bch = [];
@@ -675,53 +652,25 @@ async function f1(){
 
         let anual = ((((tasa/diff3m)+1)**365)-1)*100;
 
-        if(anual > 15){
-            fut_bch.style.color = "rgb(197, 197, 197)";
-            spot_bch.style.color = "rgb(197, 197, 197)";
-            tasa_a_bch.style.color = "rgb(0, 255, 34)";
-        }else if(anual < 10){
-            spot_bch.style.color = "black";
-            fut_bch.style.color = "black";
-            tasa_a_bch.style.color = "rgb(255, 0, 34)";
-        }else{
-            spot_bch.style.color = "black";
-            fut_bch.style.color = "black";
-            tasa_a_bch.style.color = "yellow";}
-
-
         fut_bch.innerText = parseFloat(futter_bch).toFixed(2);
         tasa_a_bch.innerHTML = `${anual.toFixed(3)}%`;
 
-        //E-MAIL NOTIFICATION   
-        // Direct rate larger than costs            Anual larger then notify1                    Message not sent      NOT NAN
-        if( tasa*100-0.3 > 0               &&          ((tasa*100-0.3)/diff3m)*365 > notify1          && enviado == 0   && isNaN(spotter_bch) != true && isNaN(futter_bch) != true){
-            //['jhoulin.chakana@gmail.com', "ignacio@chakana.com.ar", "elliot@chakana.com.ar ", "arigoli@chakana.com.ar", "tbazzani.chakana@gmail.com"]
+        if(anual >= 15){
+            spot_bch.style.color = "rgb(197, 197, 197)";
+            fut_bch.style.color = "rgb(197, 197, 197)";
+            tasa_a_bch.style.color = "rgb(0, 255, 34)";
+            tasa_d_bch.style.color = "rgb(0, 255, 34)";
 
-            //jmtp mail
-            Email.send({
-                SecureToken : "",
-                To : 'jeronimo.houlin@gmail.com',
-                From : "jeronimoaisuru@gmail.com",
-                Subject : "Avisoo !",
-                Body : `  ETH a ${diff3m} días está en ${notify1}% anual NOF, avisar ! Código: 2580.`,
-                Attachments : [
-                {
-                    name : "chakanaimggg.png",
-                    path : "https://media-exp1.licdn.com/dms/image/C4E0BAQHxRffplAaY-w/company-logo_200_200/0/1549408729033?e=2159024400&v=beta&t=QMk5flu1ZaH6Yhq9JzW9TMyd-kt6R3r2amTmfjqp11s"
-                }]
-            }).then(
-            message => console.log("Se ha enviado un mail.")
-            );
-
-            enviado += 1;
-            window.localStorage.setItem("Enviado", enviado);
-
-        }
-
-        //Si caeo 70% la tasa, volver a habilitar el envío.
-        if(anual < notify1*(1-resend) && enviado ==1){
-            enviado -= 1;
-            window.localStorage.setItem("Enviado", enviado);
+        }else if(anual < 10){
+            spot_bch.style.color = "black";
+            fut_bch.style.color = "black";
+            tasa_d_bch.style.color = "black";
+            tasa_a_bch.style.color = "rgb(255, 0, 34)";
+        }else{
+            spot_bch.style.color = "rgb(197, 197, 197)";
+            fut_bch.style.color = "rgb(197, 197, 197)";
+            tasa_a_bch.style.color = "rgb(197, 197, 197)";
+            tasa_d_bch.style.color = "yellow";
         }
 
 
@@ -742,23 +691,27 @@ async function f1(){
 
         let anual = ((((tasa/diff6m)+1)**365)-1)*100;
 
-        if(anual > 15){
-            spots_bch.style.color = "rgb(197, 197, 197)";
-            futf_bch.style.color = "rgb(197, 197, 197)";
-            tasaf_a_bch.style.color = "rgb(0, 255, 34)";
-        }else if(anual < 10){
-            spots_bch.style.color = "black";
-            futf_bch.style.color = "black";
-            tasaf_a_bch.style.color = "rgb(255, 0, 34)";
-        }else{
-            spots_bch.style.color = "black";
-            futf_bch.style.color = "black";
-            tasaf_a_bch.style.color = "yellow";}
-
         futf_bch.innerText = parseFloat(futterf_bch).toFixed(2);
         tasaf_a_bch.innerHTML = `${anual.toFixed(3)}%`;
 
 
+        if(anual >= 15){
+            spots_bch.style.color = "rgb(197, 197, 197)";
+            futf_bch.style.color = "rgb(197, 197, 197)";
+            tasaf_a_bch.style.color = "rgb(0, 255, 34)";
+            tasaf_d_bch.style.color = "rgb(0, 255, 34)";
+
+        }else if(anual < 10){
+            spots_bch.style.color = "black";
+            futf_bch.style.color = "black";
+            tasaf_d_bch.style.color = "black";
+            tasaf_a_bch.style.color = "rgb(255, 0, 34)";
+        }else{
+            spots_bch.style.color = "rgb(197, 197, 197)";
+            futf_bch.style.color = "rgb(197, 197, 197)";
+            tasaf_a_bch.style.color = "rgb(197, 197, 197)";
+            tasaf_d_bch.style.color = "yellow";
+        }
     }
 
 
@@ -770,27 +723,27 @@ async function f1(){
     let symb_f_ada = `adausd_${date1}`;
     let symb_ff_ada = `adausd_${date2}`;
 
+
     let ws_ada = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_ada}@trade`);
     let wsf_ada = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_ada}@trade`);
     let wsff_ada = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_ada}@markPrice`);
 
 
-
     //spot 3m
-    let spot_ada = document.querySelector(".contenedor6 .ADA .spot");
+    let spot_ada = document.querySelector(".contenedor4 .ADA .spot");
     //future 3m
-    let fut_ada = document.querySelector(".contenedor6 .ADA .future");
+    let fut_ada = document.querySelector(".contenedor4 .ADA .future");
     //Tasa 3m
-    let tasa_d_ada = document.querySelector(".contenedor6 .ADA .tasa");
-    let tasa_a_ada = document.querySelector(".contenedor6 .ADA .tasa1");
+    let tasa_d_ada = document.querySelector(".contenedor4 .ADA .tasa");
+    let tasa_a_ada = document.querySelector(".contenedor4 .ADA .tasa1");
 
     //spot 6m 
-    let spots_ada = document.querySelector(".contenedor4 .ADA .spot");
+    let spots_ada = document.querySelector(".contenedor6 .ADA .spot");
     //future 6m 
-    let futf_ada = document.querySelector(".contenedor4 .ADA .future");
+    let futf_ada = document.querySelector(".contenedor6 .ADA .future");
     //Tasa 6m 
-    let tasaf_d_ada = document.querySelector(".contenedor4 .ADA .tasa");
-    let tasaf_a_ada= document.querySelector(".contenedor4 .ADA .tasa1");
+    let tasaf_d_ada = document.querySelector(".contenedor6 .ADA .tasa");
+    let tasaf_a_ada= document.querySelector(".contenedor6 .ADA .tasa1");
 
     let futy_ada = [];
     let futyf_ada = [];
@@ -801,8 +754,6 @@ async function f1(){
     let futterf_ada = null;
 
 
-    //let enviado = [];
-
 
     ////////////////SPOT call////////////////////////
     ws_ada.onmessage = (event) => {
@@ -812,9 +763,8 @@ async function f1(){
 
         spotter_ada = spoty_ada[spoty_ada.length-1];
 
-        spot_ada.innerText = parseFloat(spotter_ada).toFixed(4);
-        spots_ada.innerText = parseFloat(spotter_ada).toFixed(4);
-
+        spot_ada.innerText = parseFloat(spotter_ada).toFixed(2);
+        spots_ada.innerText = parseFloat(spotter_ada).toFixed(2);
     }
 
 
@@ -825,73 +775,219 @@ async function f1(){
         futy_ada.push(JSON.parse(fut_p));
 
         futter_ada = futy_ada[futy_ada.length-1];
-        //console.log(fut_p);
         
         let tasa = futter_ada / spotter_ada -1;
 
         tasa_d_ada.innerText = `${(tasa*100).toFixed(3)}%`;
 
         let anual = ((((tasa/diff3m)+1)**365)-1)*100;
+        tasa_a_ada.innerHTML = `${anual.toFixed(3)}%`;
 
-        if(anual > 15){
-            fut_ada.style.color = "rgb(197, 197, 197)";
+
+        fut_ada.innerText = parseFloat(futter_ada).toFixed(2);
+        tasa_a_ada.innerHTML = `${anual.toFixed(3)}%`;
+
+        if(anual >= 15){
             spot_ada.style.color = "rgb(197, 197, 197)";
+            fut_ada.style.color = "rgb(197, 197, 197)";
             tasa_a_ada.style.color = "rgb(0, 255, 34)";
+            tasa_d_ada.style.color = "rgb(0, 255, 34)";
+
         }else if(anual < 10){
             spot_ada.style.color = "black";
             fut_ada.style.color = "black";
+            tasa_d_ada.style.color = "black";
             tasa_a_ada.style.color = "rgb(255, 0, 34)";
         }else{
-            spot_ada.style.color = "black";
-            fut_ada.style.color = "black";
-            tasa_a_ada.style.color = "yellow";}
+            spot_ada.style.color = "rgb(197, 197, 197)";
+            fut_ada.style.color = "rgb(197, 197, 197)";
+            tasa_a_ada.style.color = "rgb(197, 197, 197)";
+            tasa_d_ada.style.color = "yellow";
+        }
 
-
-        fut_ada.innerText = parseFloat(futter_ada).toFixed(4);
-        tasa_a_ada.innerHTML = `${anual.toFixed(3)}%`;
 
     }
 
 
-        ///////////////FUTURE call////////////////////////
-        wsff_ada.onmessage = (event) => {
-            //console.log(event.data);
-            let fut_p = JSON.parse(event.data).p;
-            futyf_ada.push(JSON.parse(fut_p));
     
-            futterf_ada = futyf_ada[futyf_ada.length-1];
-    
-            
-            let tasa = futterf_ada / spotter_ada -1;
-    
-            tasaf_d_ada.innerText = `${(tasa*100).toFixed(3)}%`;
-    
-            let anual = ((((tasa/diff6m)+1)**365)-1)*100;
-    
-            if(anual > 15){
-                spots_ada.style.color = "rgb(197, 197, 197)";
-                futf_ada.style.color = "rgb(197, 197, 197)";
-                tasaf_a_ada.style.color = "rgb(0, 255, 34)";
-            }else if(anual < 10){
-                spots_ada.style.color = "black";
-                futf_ada.style.color = "black";
-                tasaf_a_ada.style.color = "rgb(255, 0, 34)";
-            }else{
-                spots_ada.style.color = "black";
-                futf_ada.style.color = "black";
-                tasaf_a_ada.style.color = "yellow";}
-    
-            futf_ada.innerText = parseFloat(futterf_ada).toFixed(2);
-    
-            tasaf_a_ada.innerHTML = `${anual.toFixed(3)}%`;
+    ///////////////FUTURE call////////////////////////
+    wsff_ada.onmessage = (event) => {
+        //console.log(event.data);
+        let fut_p = JSON.parse(event.data).p;
+        futyf_ada.push(JSON.parse(fut_p));
+
+        futterf_ada = futyf_ada[futyf_ada.length-1];
+
+        
+        let tasa = futterf_ada / spotter_ada -1;
+
+        tasaf_d_ada.innerText = `${(tasa*100).toFixed(3)}%`;
+
+        let anual = ((((tasa/diff6m)+1)**365)-1)*100;
+
+        futf_ada.innerText = parseFloat(futterf_ada).toFixed(2);
+        tasaf_a_ada.innerHTML = `${anual.toFixed(3)}%`;
 
 
-            
+        if(anual >= 15){
+            spots_ada.style.color = "rgb(197, 197, 197)";
+            futf_ada.style.color = "rgb(197, 197, 197)";
+            tasaf_a_ada.style.color = "rgb(0, 255, 34)";
+            tasaf_d_ada.style.color = "rgb(0, 255, 34)";
+
+        }else if(anual < 10){
+            spots_ada.style.color = "black";
+            futf_ada.style.color = "black";
+            tasaf_d_ada.style.color = "black";
+            tasaf_a_ada.style.color = "rgb(255, 0, 34)";
+        }else{
+            spots_ada.style.color = "rgb(197, 197, 197)";
+            futf_ada.style.color = "rgb(197, 197, 197)";
+            tasaf_a_ada.style.color = "rgb(197, 197, 197)";
+            tasaf_d_ada.style.color = "yellow";
+        }
+    }
 
 
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //NEXT CRYPTO
+    let symb_xrp = "xrpusdt";
+    let symb_f_xrp = `xrpusd_${date1}`;
+    let symb_ff_xrp  = `xrpusd_${date2}`;
+
+    let ws_xrp  = new WebSocket(`wss://stream.binance.com:9443/ws/${symb_xrp}@trade`);
+    let wsf_xrp  = new WebSocket(`wss://dstream.binance.com/ws/${symb_f_xrp}@trade`);
+    let wsff_xrp  = new WebSocket(`wss://dstream.binance.com/ws/${symb_ff_xrp}@markPrice`);
+
+
+
+    //spot 3m
+    let spot_xrp = document.querySelector(".contenedor4 .XRP .spot");
+    //future 3m
+    let fut_xrp = document.querySelector(".contenedor4 .XRP .future");
+    //Tasa 3m
+    let tasa_d_xrp = document.querySelector(".contenedor4 .XRP .tasa");
+    let tasa_a_xrp = document.querySelector(".contenedor4 .XRP .tasa1");
+
+    //spot 6m 
+    let spots_xrp = document.querySelector(".contenedor6 .XRP .spot");
+    //future 6m 
+    let futf_xrp = document.querySelector(".contenedor6 .XRP .future");
+    //Tasa 6m 
+    let tasaf_d_xrp = document.querySelector(".contenedor6 .XRP .tasa");
+    let tasaf_a_xrp= document.querySelector(".contenedor6 .XRP .tasa1");
+
+    let futy_xrp = [];
+    let futyf_xrp = [];
+    let spoty_xrp = [];  
+
+    let spotter_xrp = null;
+    let futter_xrp = null;
+    let futterf_xrp = null;
+
+
+    //let enviado = [];
+
+
+    ////////////////SPOT call////////////////////////
+    ws_xrp.onmessage = (event) => {
+        //console.log(event.data);
+        let spot_p = JSON.parse(event.data).p;
+        spoty_xrp.push(JSON.parse(spot_p));
+
+        spotter_xrp = spoty_xrp[spoty_xrp.length-1];
+
+        spot_xrp.innerText = parseFloat(spotter_xrp).toFixed(4);
+        spots_xrp.innerText = parseFloat(spotter_xrp).toFixed(4);
+
+    }
+
+
+    ////////////////FUTURE call////////////////////////
+    wsf_xrp.onmessage = (event) => {
+        //console.log(event.data);
+        let fut_p = JSON.parse(event.data).p;
+        futy_xrp.push(JSON.parse(fut_p));
+
+        futter_xrp = futy_xrp[futy_xrp.length-1];
+        //console.log(fut_p);
+        
+        let tasa = futter_xrp/ spotter_xrp -1;
+
+        tasa_d_xrp.innerText = `${(tasa*100).toFixed(3)}%`;
+
+        let anual = ((((tasa/diff3m)+1)**365)-1)*100;
+
+        fut_xrp.innerText = parseFloat(futter_xrp).toFixed(4);
+        tasa_a_xrp.innerHTML = `${anual.toFixed(3)}%`;
+
+        if(anual >= 15){
+            spot_xrp.style.color = "rgb(197, 197, 197)";
+            fut_xrp.style.color = "rgb(197, 197, 197)";
+            tasa_a_xrp.style.color = "rgb(0, 255, 34)";
+            tasa_d_xrp.style.color = "rgb(0, 255, 34)";
+
+        }else if(anual < 10){
+            spot_xrp.style.color = "black";
+            fut_xrp.style.color = "black";
+            tasa_d_xrp.style.color = "black";
+            tasa_a_xrp.style.color = "rgb(255, 0, 34)";
+        }else{
+            spot_xrp.style.color = "rgb(197, 197, 197)";
+            fut_xrp.style.color = "rgb(197, 197, 197)";
+            tasa_a_xrp.style.color = "rgb(197, 197, 197)";
+            tasa_d_xrp.style.color = "yellow";
+        }
+
+    }
+
+
+    ///////////////FUTURE call////////////////////////
+    wsff_xrp.onmessage = (event) => {
+        //sconsole.log(event.data);
+        let fut_p = JSON.parse(event.data).p;
+        futyf_xrp.push(JSON.parse(fut_p));
+
+        futterf_xrp = futyf_xrp[futyf_xrp.length-1];
+
+        
+        let tasa = futterf_xrp / spotter_xrp -1;
+
+        tasaf_d_xrp.innerText = `${(tasa*100).toFixed(3)}%`;
+
+        let anual = ((((tasa/diff6m)+1)**365)-1)*100;
+
+        futf_xrp.innerText = parseFloat(futterf_xrp).toFixed(2);
+
+        tasaf_a_xrp.innerHTML = `${anual.toFixed(3)}%`;
+
+        if(anual >= 15){
+            spots_xrp.style.color = "rgb(197, 197, 197)";
+            futf_xrp.style.color = "rgb(197, 197, 197)";
+            tasaf_a_xrp.style.color = "rgb(0, 255, 34)";
+            tasaf_d_xrp.style.color = "rgb(0, 255, 34)";
+
+        }else if(anual < 10){
+            spots_xrp.style.color = "black";
+            futf_xrp.style.color = "black";
+            tasaf_d_xrp.style.color = "black";
+            tasaf_a_xrp.style.color = "rgb(255, 0, 34)";
+        }else{
+            spots_xrp.style.color = "rgb(197, 197, 197)";
+            futf_xrp.style.color = "rgb(197, 197, 197)";
+            tasaf_a_xrp.style.color = "rgb(197, 197, 197)";
+            tasaf_d_xrp.style.color = "yellow";
         }
 
 
+
+    
+
+    }
 
 }
 
