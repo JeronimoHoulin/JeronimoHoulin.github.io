@@ -1,14 +1,14 @@
 //Dates for anualized ret
-var mat3m = "06/24/2022";
-var mat6m = "09/30/2022";
+var mat3m = "09/30/2022";
+var mat6m = "12/30/2022";
 
 let vency3m = document.querySelector(".contenedor3 .vencimiento");
 let vency6m = document.querySelector(".contenedor5 .vencimiento");
 vency3m.textContent += mat3m;
 vency6m.textContent += mat6m;
 
-let date1 = "220624";
-let date2 = "220930"
+let date1 = "220930";
+let date2 = "221230"
 
 var maturity3m = new Date(mat3m);
 var maturity6m = new Date(mat6m);
